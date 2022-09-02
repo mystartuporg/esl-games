@@ -33,6 +33,9 @@
 <body>
 
 	<script type="text/javascript">
+		// add a check here if the user has already submitted the info using the form
+		// if not yet submitted, redirect to user form
+
 		// NOTE: Originally 640x1000. Other possible sizes: 512x800, 400x625
 		var game = new Phaser.Game(405, 720, Phaser.CANVAS, '', { preload: preload, create: create, update: update });
 
@@ -170,6 +173,10 @@
 
 		function timesUp() {
 			buzzer.play();
+
+			// set localStorage value for the final points
+			// redirect to rewards page
+
 			if (!ball.launched) {
 				ball.kill();
 			}
