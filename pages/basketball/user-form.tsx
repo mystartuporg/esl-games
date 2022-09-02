@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
-import { Grid, MenuItem, Select, TextField } from '@mui/material';
+import { Button, Grid, MenuItem, Select, TextField } from '@mui/material';
 
 interface IFormInput {
     fullName?: String
@@ -32,6 +32,7 @@ export default function UserForm() {
                             label="Full Name"
                             error={errors.fullName ? true : false}
                             helperText={errors.fullName ? errors.fullName.message : ""}
+                            style={{ marginTop: 10 }}
                             {...field}
                         />}
                     />
@@ -43,6 +44,7 @@ export default function UserForm() {
                             error={errors.mobileNumber ? true : false}
                             label="Mobile Number"
                             helperText={errors.mobileNumber ? errors.mobileNumber.message : ""}
+                            style={{ marginTop: 10 }}
                             {...field}
                         />}
                     />
@@ -54,13 +56,15 @@ export default function UserForm() {
                             error={errors.emailAddress ? true : false}
                             label="Email Address"
                             helperText={errors.emailAddress ? errors.emailAddress.message : ""}
+                            style={{ marginTop: 10 }}
                             {...field}
                         />}
                     />
                     <Controller
                         name="gender"
                         control={control}
-                        render={({ field }) => <Select 
+                        render={({ field }) => <Select
+                        style={{ marginTop: 10 }}
                             {...field} 
                         >
                             <MenuItem value="male">Male</MenuItem>
@@ -69,7 +73,7 @@ export default function UserForm() {
                         </Select>
                         }
                     />
-                    <input type="submit" />
+                    <Button variant="contained" type="submit" style={{ marginTop: 10 }}>Submit</Button>       
                 </form>
             </Grid>
         </Grid>
