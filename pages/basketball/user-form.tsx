@@ -47,7 +47,7 @@ export default function UserForm() {
                             helperText={errors.mobileNumber ? /*errors.mobileNumber.message*/"Invalid Mobile Number" : ""}
                             style={{ marginTop: 10 }}
                             defaultCountry="PH"
-                            disableDropdown
+                            onlyCountries={["PH"]}
                             {...field}
                         />}
                     />
