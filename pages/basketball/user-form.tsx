@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { useForm, Controller, SubmitHandler } from 'react-hook-form'
 import { Button, Grid, MenuItem, Paper, Select, TextField, Typography } from '@mui/material'
 import { MuiTelInput, matchIsValidTel } from 'mui-tel-input';
+import { SportsBasketball } from "@mui/icons-material";
 
 interface IFormInput {
   fullName?: String
@@ -49,14 +50,18 @@ export default function UserForm() {
 
         <Paper
           style={{
-            padding: "200px 40px 40px",
+            display: "flex", flexDirection: "column",
+            padding: "200px 40px 20px",
             height: "80%",
             margin: "auto 0px 40px"
           }}
         >
           <form
             onSubmit={handleSubmit(onSubmit)}
-            style={{ display: 'flex', flexDirection: 'column' }}
+            style={{ 
+              display: 'flex', flexDirection: 'column',
+              height: "-webkit-fill-available"
+            }}
           >
             <Grid item
               justifyContent="center"
@@ -64,7 +69,7 @@ export default function UserForm() {
             >
               <Typography
                 textAlign="right"
-                style={{ margin: "auto", minWidth: 120 }}                
+                style={{ margin: "16px auto auto", minWidth: 120 }}
               >
                 Full Name:
               </Typography>
@@ -74,7 +79,7 @@ export default function UserForm() {
                 rules={{ required: 'Full Name is required', maxLength: 70 }}
                 render={({ field }) => (
                   <TextField
-                    label="Full Name"
+                    placeholder="Juan Dela Cruz"
                     error={errors.fullName ? true : false}
                     helperText={errors.fullName ? errors.fullName.message : ''}
                     style={{ marginLeft: 20, width: "-webkit-fill-available" }}
@@ -82,82 +87,80 @@ export default function UserForm() {
                   />
                 )}
               />
-            </Grid>
-            <Grid item
-              justifyContent="center"
-              style={{ marginTop: 40, display: "flex" }}
-            >
-              <Typography
-                textAlign="right"
-                style={{ margin: "auto", minWidth: 120 }}
+              <Grid item
+                justifyContent="center"
+                style={{ marginTop: 40, display: "flex" }}
               >
-                Mobile Number:
-              </Typography>
-              <Controller
-                name="mobileNumber"
-                control={control}
-                rules={{ validate: matchIsValidTel }}
-                render={({ field }) => (
-                  <MuiTelInput
-                    error={errors.mobileNumber ? true : false}
-                    label="Mobile Number"
-                    helperText={errors.mobileNumber ? 'Invalid Mobile Number' : ''}
-                    style={{ marginLeft: 20, width: "-webkit-fill-available" }}
-                    defaultCountry="PH"
-                    onlyCountries={["PH"]}
-                    {...field}
-                  />
-                )}
-              />
-            </Grid>
-            <Grid item
-              justifyContent="center"
-              style={{ marginTop: 40, display: "flex" }}
-            >
-              <Typography
-                textAlign="right"
-                style={{ margin: "auto", minWidth: 120 }}
+                <Typography
+                  textAlign="right"
+                  style={{ margin: "16px auto auto", minWidth: 120 }}
+                >
+                  Mobile Number:
+                </Typography>
+                <Controller
+                  name="mobileNumber"
+                  control={control}
+                  rules={{ validate: matchIsValidTel }}
+                  render={({ field }) => (
+                    <MuiTelInput
+                      error={errors.mobileNumber ? true : false}
+                      placeholder="+63 XXX XXXX XXX"
+                      helperText={errors.mobileNumber ? 'Invalid Mobile Number' : ''}
+                      style={{ marginLeft: 20, width: "-webkit-fill-available" }}
+                      defaultCountry="PH"
+                      onlyCountries={["PH"]}
+                      {...field}
+                    />
+                  )}
+                />
+              </Grid>
+              <Grid item
+                justifyContent="center"
+                style={{ marginTop: 40, display: "flex" }}
               >
-                Email Address:
-              </Typography>
-              <Controller
-                name="emailAddress"
-                control={control}
-                rules={{ required: 'Email Address is required' }}
-                rules={{
-                  required: 'Email Address is required',
-                  pattern: {
-                    value: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/ ,
-                    message: 'Invalid Email Address'
-                  }
-                }}
-                render={({ field }) => (
-                  <TextField
-                    error={errors.emailAddress ? true : false}
-                    placeholder="juan.delacruz@gmail.com"
-                    helperText={
-                      errors.emailAddress ? errors.emailAddress.message : ''
+                <Typography
+                  textAlign="right"
+                  style={{ margin: "16px auto auto", minWidth: 120 }}
+                >
+                  Email Address:
+                </Typography>
+                <Controller
+                  name="emailAddress"
+                  control={control}
+                  rules={{
+                    required: 'Email Address is required',
+                    pattern: {
+                      value: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/ ,
+                      message: 'Invalid Email Address'
                     }
-                    style={{ marginLeft: 20, width: "-webkit-fill-available" }}
-                    {...field}
-                  />
-                )}
-              />
-            </Grid>
-            <Controller
-              name="gender"
-              control={control}
-              render={({ field }) => (
-                <Select style={{ marginTop: 10 }} {...field}>
-                  <MenuItem value="male">Male</MenuItem>
-                  <MenuItem value="female">Female</MenuItem>
-                  <MenuItem value="other">Other</MenuItem>
-                </Select>
-              )}
-            />
-            <Button variant="contained" type="submit" style={{ marginTop: 40 }}>
-              Submit
-            </Button>
+                  }}
+                  render={({ field }) => (
+                    <TextField
+                      error={errors.emailAddress ? true : false}
+                      placeholder="juan.delacruz@gmail.com"
+                      helperText={
+                        errors.emailAddress ? errors.emailAddress.message : ''
+                      }
+                      style={{ marginLeft: 20, width: "-webkit-fill-available" }}
+                      {...field}
+                    />
+                  )}
+                />
+              </Grid>
+              <Button
+                variant="outlined"
+                style={{ margin: "auto 0 10px" }}
+              >
+                  Read Terms and Conditions
+              </Button>       
+              <Button
+                variant="contained"
+                type="submit"
+                startIcon={<SportsBasketball  />}
+                style={{ marginTop: "auto 0 10px" }}
+              >
+                Submit
+              </Button>
           </form>
         </Paper>
       </Grid>
