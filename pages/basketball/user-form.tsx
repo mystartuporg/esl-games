@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { useForm, Controller, SubmitHandler } from "react-hook-form";
 import { Button, Grid, MenuItem, Select, TextField } from '@mui/material';
+import { MuiTelInput, matchIsValidTel } from "mui-tel-input";
 
 interface IFormInput {
     fullName?: String
@@ -27,7 +28,7 @@ export default function UserForm() {
                     <Controller
                         name="fullName"
                         control={control}
-                        rules={{ required: "Full Name is required" }}
+                        rules={{ required: "Full Name is required", maxLength: 70 }}
                         render={({ field }) => <TextField
                             label="Full Name"
                             error={errors.fullName ? true : false}
@@ -39,19 +40,21 @@ export default function UserForm() {
                     <Controller
                         name="mobileNumber"
                         control={control}
-                        rules={{ required: "Mobile Number is required" }}
-                        render={({ field }) => <TextField
+                        rules={{ /*required: "Mobile Number is required",*/ validate: matchIsValidTel }}
+                        render={({ field }) => <MuiTelInput
                             error={errors.mobileNumber ? true : false}
                             label="Mobile Number"
-                            helperText={errors.mobileNumber ? errors.mobileNumber.message : ""}
+                            helperText={errors.mobileNumber ? /*errors.mobileNumber.message*/"Invalid Mobile Number" : ""}
                             style={{ marginTop: 10 }}
+                            defaultCountry="PH"
+                            disableDropdown
                             {...field}
                         />}
                     />
                     <Controller
                         name="emailAddress"
                         control={control}
-                        rules={{ required: "Email Address is required" }}
+                        rules={{ required: "Email Address is required", pattern: {value: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/ , message: "Invalid Email Address"} }}
                         render={({ field }) => <TextField
                             error={errors.emailAddress ? true : false}
                             label="Email Address"
