@@ -1,8 +1,8 @@
-import {Grid, Typography} from "@mui/material";
+import {Card, CardMedia, Grid, Typography} from "@mui/material";
 
 export default function RewardAlert() {
   return (
-    <Grid container xs={12} direction={"column"} alignItems={"center"}>
+    <Grid container width={"300px"} direction={"column"} alignItems={"center"}>
       <Grid item>
         <Typography>
           Congratulations
@@ -23,8 +23,14 @@ export default function RewardAlert() {
           Here's your reward
         </Typography>
       </Grid>
-      <Grid item>
-        <img src="https://media.karousell.com/media/photos/products/2021/12/5/giftaway_universal_plus_p1000__1638701916_a3892524_progressive.jpg" alt="Prize Image" />
+      <Grid item xs={12}>
+        <Card style={{ position: "relative"}} >
+          <CardMedia
+            component="img"
+            image="https://media.karousell.com/media/photos/products/2021/12/5/giftaway_universal_plus_p1000__1638701916_a3892524_progressive.jpg"
+            style={{ height:"100%", width:"100%", backgroundSize: "contain" }}
+          />
+        </Card>
       </Grid>
       <Grid item>
         <Typography>
