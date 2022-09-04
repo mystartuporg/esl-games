@@ -9,6 +9,7 @@
 	<style type="text/css">
 		body {
 			margin: 0;
+			background: cadetblue;
 		}
 
 		canvas {
@@ -35,7 +36,7 @@
 		// TODO
 		// add a check here if the user has already submitted the info using the form
 		// if not yet submitted, redirect to user form
-		var game = new Phaser.Game(405, 670, Phaser.CANVAS, '', { preload: preload, create: create, update: update });
+		var game = new Phaser.Game(405, 720, Phaser.CANVAS, '', { preload: preload, create: create, update: update });
 
 		function preload() {
 			game.load.image('arcade', '../assets/basketball/images/arcade.png');
@@ -258,6 +259,7 @@
 
 		function gameOver() {
 			console.log('Game Over. Final Score is ' + current_score);
+			window.location.href = "/basketball/rewards-message";
 			// TODO
 			// set localStorage value for the final points
 			// redirect to rewards page

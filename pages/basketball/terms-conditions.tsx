@@ -1,6 +1,7 @@
-import { Box, Button, FormControlLabel, FormHelperText, Grid, Switch, Typography } from "@mui/material";
 import React from "react";
 import { Controller, SubmitHandler, SubmitErrorHandler, useForm } from "react-hook-form";
+import {useRouter} from 'next/router';
+import { Box, Button, FormControlLabel, FormHelperText, Grid, Paper, Switch, Typography } from "@mui/material";
 
 interface IFormInput {
     accepted?: Boolean
@@ -21,48 +22,85 @@ Fusce sed imperdiet ligula, viverra interdum tellus. Sed finibus ac enim sed orn
 export default function TermsConditions() {
     const [errorMessage, setErrorMessage] = React.useState('');
     const { register, formState: { isValid }, handleSubmit, control } = useForm();
-    const onSubmit: SubmitHandler<IFormInput> = data => console.log(data);
+    const router = useRouter();
+    const onSubmit: SubmitHandler<IFormInput> = () => router.push("/basketball/user-form");
     const onSubmitError: SubmitErrorHandler<IFormInput> = errors => {
         setErrorMessage('Cannot proceed until terms and conditions are accepted.');
     }
 
     return (
-        <Grid container direction="row" justifyContent="center" alignItems="stretch">
-            <Grid item md={12} lg={4}>
-            <Typography variant="h4" gutterBottom align="center">
-                Terms And Conditions
-            </Typography>
-                <Box
-                    sx={{
-                        mb: 2,
-                        display: "flex",
-                        flexDirection: "column",
-                        height: 400,
-                        overflow: "hidden",
-                        overflowY: "scroll",
-                        typography: 'body1',
-                        }}
-                >{LIPSUM}
-                </Box>
-                <form onSubmit={handleSubmit(onSubmit, onSubmitError)} style={{ display: "flex", flexDirection: "column" }}>
-                    <Controller
-                        name="accepted"
-                        control={control}
-                        rules={{ validate: value => value === true }}
-                        render={({ field }) => <FormControlLabel
-                            control={<Switch
-                                {...field}
-                                onChange={(e) => {
-                                    setErrorMessage('');
-                                    field.onChange(e);
-                                }}
+        <Grid
+            container
+            direction="row"
+            justifyContent="center"
+            alignItems="stretch"
+            style={{ height: "100vh", background: "cadetblue" }}
+            >
+            <Grid item md={8} lg={4}
+                justifyContent="center"
+                textAlign="center"
+                style={{ display: "flex", flexDirection: "column" }}
+            >
+                <img alt="basketball-hoop" src="/assets/images/basketball-hoop.png"
+                style={{
+                    display: "flex",
+                    maxWidth: 360, maxHeight: 341,
+                    position: "fixed",
+                    top: "3%", left: "50%",
+                    marginLeft: -180
+                }}
+                />
+
+                <Paper
+                style={{
+                    display: "flex", flexDirection: "column",
+                    padding: "200px 40px 20px",
+                    height: "80%",
+                    width: 495,
+                    margin: "auto 0px 40px"
+                }}
+                >
+                    <Typography
+                      variant="h4"
+                      gutterBottom 
+                      align="center" 
+                      style={{ marginTop: 10, color: '#003865' }}
+                    >
+                      Terms And Conditions
+                    </Typography>
+                    <Box
+                      sx={{
+                            height: 400,
+                            overflow: 'hidden',
+                            overflowY: 'scroll',
+                            typography: 'body1',
+                            textAlign: 'justify'
+                      }}
+                      maxWidth={430}
+                      style={{ margin: 'auto'}}
+                    >
+                        <Typography variant="body1" align="justify">{ LIPSUM }</Typography>
+                    </Box>
+                    <form onSubmit={handleSubmit(onSubmit, onSubmitError)} style={{ display: "flex", flexDirection: "column", margin: "auto auto 10px" }}>
+                        <Controller
+                            name="accepted"
+                            control={control}
+                            rules={{ validate: value => value === true }}
+                            render={({ field }) => <FormControlLabel
+                                control={<Switch
+                                    {...field}
+                                    onChange={(e) => {
+                                        setErrorMessage('');
+                                        field.onChange(e);
+                                    }}
+                                />}
+                                label="I have read and accepted the terms and conditions"
                             />}
-                            label="I have read and accepted the terms and conditions"
-                        />}
-                    />
-                    <FormHelperText error={true}>{errorMessage}</FormHelperText>
-                    <Button variant="contained" type="submit" style={{ marginTop: 10 }}>Proceed</Button>
-                </form>
+                        />
+                        <FormHelperText error={true}>{errorMessage}</FormHelperText>
+                        <Button variant="contained" type="submit" style={{ marginTop: 10 }}>Proceed</Button>
+                    </form>
+                </Paper>
             </Grid>
         </Grid>
     );

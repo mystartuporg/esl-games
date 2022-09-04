@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
 import { useForm, Controller, SubmitHandler } from 'react-hook-form'
-import { Button, Grid, MenuItem, Paper, Select, TextField, Typography } from '@mui/material'
-import { MuiTelInput, matchIsValidTel } from 'mui-tel-input';
-import { SportsBasketball } from "@mui/icons-material";
+import {useRouter} from 'next/router'
+import { Button, Grid, Paper, TextField, Typography } from '@mui/material'
+import { MuiTelInput, matchIsValidTel } from 'mui-tel-input'
+import { SportsBasketball } from "@mui/icons-material"
 
 interface IFormInput {
   fullName?: String
@@ -23,7 +24,8 @@ export default function UserForm() {
       emailAddress: '',
     },
   })
-  const onSubmit: SubmitHandler<IFormInput> = (data) => console.log(data)
+  const router = useRouter()
+  const onSubmit: SubmitHandler<IFormInput> = (data) => router.push("/basketball/play")
 
   return (
     <Grid
@@ -31,7 +33,10 @@ export default function UserForm() {
       direction="row"
       justifyContent="center"
       alignItems="stretch"
-      style={{ height: "100vh" }}
+      style={{
+        height: "100vh",
+        background: "cadetblue"
+      }}
     >
       <Grid item md={8} lg={4}
         justifyContent="center"
@@ -151,14 +156,16 @@ export default function UserForm() {
             <Button
               variant="outlined"
               style={{ margin: "auto 0 10px" }}
+              onClick={ () => router.push("/basketball/terms-conditions") }
             >
                 Read Terms and Conditions
-            </Button>       
+            </Button>
             <Button
               variant="contained"
               type="submit"
               startIcon={<SportsBasketball  />}
-              style={{ marginTop: "auto 0 10px" }}
+              endIcon={<SportsBasketball  />}
+              style={{ background: "#EF5B0C" }}
             >
               Submit
             </Button>
