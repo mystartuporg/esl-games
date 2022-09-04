@@ -1,5 +1,5 @@
 import fs from "fs";
-const filename = "./src/basketball/play.html";
+const filename = "public/assets/basketball/play.html";
 
 export default async function api(req, res) {
   res.setHeader("Content-Type", "text/html; charset=utf-8");
