@@ -58,7 +58,7 @@ export default function UserForm() {
         >
           <form
             onSubmit={handleSubmit(onSubmit)}
-            style={{ 
+            style={{
               display: 'flex', flexDirection: 'column',
               height: "-webkit-fill-available"
             }}
@@ -87,80 +87,81 @@ export default function UserForm() {
                   />
                 )}
               />
-              <Grid item
-                justifyContent="center"
-                style={{ marginTop: 40, display: "flex" }}
+            </Grid>
+            <Grid item
+              justifyContent="center"
+              style={{ marginTop: 40, display: "flex" }}
+            >
+              <Typography
+                textAlign="right"
+                style={{ margin: "16px auto auto", minWidth: 120 }}
               >
-                <Typography
-                  textAlign="right"
-                  style={{ margin: "16px auto auto", minWidth: 120 }}
-                >
-                  Mobile Number:
-                </Typography>
-                <Controller
-                  name="mobileNumber"
-                  control={control}
-                  rules={{ validate: matchIsValidTel }}
-                  render={({ field }) => (
-                    <MuiTelInput
-                      error={errors.mobileNumber ? true : false}
-                      placeholder="+63 XXX XXXX XXX"
-                      helperText={errors.mobileNumber ? 'Invalid Mobile Number' : ''}
-                      style={{ marginLeft: 20, width: "-webkit-fill-available" }}
-                      defaultCountry="PH"
-                      onlyCountries={["PH"]}
-                      {...field}
-                    />
-                  )}
-                />
-              </Grid>
-              <Grid item
-                justifyContent="center"
-                style={{ marginTop: 40, display: "flex" }}
+                Mobile Number:
+              </Typography>
+              <Controller
+                name="mobileNumber"
+                control={control}
+                rules={{ validate: matchIsValidTel }}
+                render={({ field }) => (
+                  <MuiTelInput
+                    error={errors.mobileNumber ? true : false}
+                    placeholder="+63 XXX XXX XXXX"
+                    helperText={errors.mobileNumber ? 'Invalid Mobile Number' : ''}
+                    style={{ marginLeft: 20, width: "-webkit-fill-available" }}
+                    defaultCountry="PH"
+                    onlyCountries={["PH"]}
+                    {...field}
+                  />
+                )}
+              />
+            </Grid>
+            <Grid item
+              justifyContent="center"
+              style={{ marginTop: 40, display: "flex" }}
+            >
+              <Typography
+                textAlign="right"
+                style={{ margin: "16px auto auto", minWidth: 120 }}
               >
-                <Typography
-                  textAlign="right"
-                  style={{ margin: "16px auto auto", minWidth: 120 }}
-                >
-                  Email Address:
-                </Typography>
-                <Controller
-                  name="emailAddress"
-                  control={control}
-                  rules={{
-                    required: 'Email Address is required',
-                    pattern: {
-                      value: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/ ,
-                      message: 'Invalid Email Address'
+                Email Address:
+              </Typography>
+              <Controller
+                name="emailAddress"
+                control={control}
+                rules={{
+                  required: 'Email Address is required',
+                  pattern: {
+                    value: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/ ,
+                    message: 'Invalid Email Address'
+                  }
+                }}
+                render={({ field }) => (
+                  <TextField
+                    error={errors.emailAddress ? true : false}
+                    placeholder="juan.delacruz@gmail.com"
+                    helperText={
+                      errors.emailAddress ? errors.emailAddress.message : ''
                     }
-                  }}
-                  render={({ field }) => (
-                    <TextField
-                      error={errors.emailAddress ? true : false}
-                      placeholder="juan.delacruz@gmail.com"
-                      helperText={
-                        errors.emailAddress ? errors.emailAddress.message : ''
-                      }
-                      style={{ marginLeft: 20, width: "-webkit-fill-available" }}
-                      {...field}
-                    />
-                  )}
-                />
-              </Grid>
-              <Button
-                variant="outlined"
-                style={{ margin: "auto 0 10px" }}
-              >
-                  Read Terms and Conditions
-              </Button>       
-              <Button
-                variant="contained"
-                type="submit"
-                startIcon={<SportsBasketball  />}
-                style={{ marginTop: "auto 0 10px" }}
-              >
-                Submit
-              </Button>
+                    style={{ marginLeft: 20, width: "-webkit-fill-available" }}
+                    {...field}
+                  />
+                )}
+              />
+            </Grid>
+            <Button
+              variant="outlined"
+              style={{ margin: "auto 0 10px" }}
+            >
+                Read Terms and Conditions
+            </Button>       
+            <Button
+              variant="contained"
+              type="submit"
+              startIcon={<SportsBasketball  />}
+              style={{ marginTop: "auto 0 10px" }}
+            >
+              Submit
+            </Button>
           </form>
         </Paper>
       </Grid>
