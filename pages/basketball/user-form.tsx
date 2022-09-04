@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { useForm, Controller, SubmitHandler } from 'react-hook-form'
 import { Button, Grid, MenuItem, Select, TextField } from '@mui/material'
+import { MuiTelInput, matchIsValidTel } from 'mui-tel-input';
 
 interface IFormInput {
   fullName?: String
@@ -40,7 +41,7 @@ export default function UserForm() {
           <Controller
             name="fullName"
             control={control}
-            rules={{ required: 'Full Name is required' }}
+            rules={{ required: 'Full Name is required', maxLength: 70 }}
             render={({ field }) => (
               <TextField
                 label="Full Name"
@@ -54,15 +55,15 @@ export default function UserForm() {
           <Controller
             name="mobileNumber"
             control={control}
-            rules={{ required: 'Mobile Number is required' }}
+            rules={{ validate: matchIsValidTel }}
             render={({ field }) => (
-              <TextField
+              <MuiTelInput
                 error={errors.mobileNumber ? true : false}
                 label="Mobile Number"
-                helperText={
-                  errors.mobileNumber ? errors.mobileNumber.message : ''
-                }
+                helperText={errors.mobileNumber ? 'Invalid Mobile Number' : ''}
                 style={{ marginTop: 10 }}
+                defaultCountry="PH"
+                onlyCountries={["PH"]}
                 {...field}
               />
             )}
@@ -71,6 +72,13 @@ export default function UserForm() {
             name="emailAddress"
             control={control}
             rules={{ required: 'Email Address is required' }}
+            rules={{
+              required: 'Email Address is required',
+              pattern: {
+                value: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/ ,
+                message: 'Invalid Email Address'
+              }
+            }}
             render={({ field }) => (
               <TextField
                 error={errors.emailAddress ? true : false}
