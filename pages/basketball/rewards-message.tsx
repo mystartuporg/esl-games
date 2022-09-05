@@ -48,11 +48,10 @@ export default function TermsConditions() {
               display: "flex", flexDirection: "column",
               padding: "200px 40px 20px",
               height: "80%",
-              width: 495,
               margin: "auto 0px 40px"
             }}
           >
-            <Typography variant="h2" gutterBottom align="center" style={{ color: '#003865' }}>
+            <Typography variant="h2" gutterBottom align="center" style={{  marginTop: 40, color: '#003865' }}>
                 Congratulations
             </Typography>
 
@@ -64,8 +63,8 @@ export default function TermsConditions() {
             <img alt="congratulations" src="https://media.karousell.com/media/photos/products/2021/12/5/giftaway_universal_plus_p1000__1638701916_a3892524_progressive.jpg"
               style={{
                 display: "flex",
-                maxWidth: 400,
-                maxHeight: 400,
+                maxWidth: 200,
+                maxHeight: 200,
                 alignSelf: "center"
               }}
             />
