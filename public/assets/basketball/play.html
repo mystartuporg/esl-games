@@ -4,7 +4,7 @@
 <head>
 	<meta charset="UTF-8" />
 	<title>Basketball Game</title>
-	<link rel="stylesheet" type = "text/css" href = "../assets/basketball/css/font-loader.css">
+	<link rel="stylesheet" type = "text/css" href = "/assets/basketball/css/font-loader.css">
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/phaser/2.6.2/phaser.min.js"></script>
 	<style type="text/css">
 		body {
@@ -39,17 +39,17 @@
 		var game = new Phaser.Game(405, 720, Phaser.CANVAS, '', { preload: preload, create: create, update: update });
 
 		function preload() {
-			game.load.image('arcade', '../assets/basketball/images/arcade.png');
+			game.load.image('arcade', '/assets/basketball/images/arcade.png');
 
-			game.load.image('ball', '../assets/basketball/images/ball.png');
-			game.load.image('side rim', '../assets/basketball/images/side_rim.png');
-			game.load.image('front rim', '../assets/basketball/images/front_rim.png');
+			game.load.image('ball', '/assets/basketball/images/ball.png');
+			game.load.image('side rim', '/assets/basketball/images/side_rim.png');
+			game.load.image('front rim', '/assets/basketball/images/front_rim.png');
 
-			game.load.audio('score', '../assets/basketball/audio/score.wav');
-			game.load.audio('backboard', '../assets/basketball/audio/backboard.wav');
-			game.load.audio('whoosh', '../assets/basketball/audio/whoosh.wav');
-			game.load.audio('spawn', '../assets/basketball/audio/spawn.wav');
-			game.load.audio('buzzer', '../assets/basketball/audio/buzzer.wav');
+			game.load.audio('score', '/assets/basketball/audio/score.wav');
+			game.load.audio('backboard', '/assets/basketball/audio/backboard.wav');
+			game.load.audio('whoosh', '/assets/basketball/audio/whoosh.wav');
+			game.load.audio('spawn', '/assets/basketball/audio/spawn.wav');
+			game.load.audio('buzzer', '/assets/basketball/audio/buzzer.wav');
 		}
 
 		var hoop,

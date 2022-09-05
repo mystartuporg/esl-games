@@ -4,7 +4,7 @@ const nextConfig = {
   swcMinify: true,
   redirects: async () => [
     {
-      source: "/api/basketball",
+      source: "/assets/basketball/play.html",
       destination: "/basketball/play",
       permanent: false
     },
@@ -12,7 +12,7 @@ const nextConfig = {
   rewrites: async () => [
     {
       source: "/basketball/play",
-      destination: "/api/basketball",
+      destination: "/assets/basketball/play.html",
     }
   ]
 }
