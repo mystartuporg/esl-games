@@ -4,17 +4,17 @@ const nextConfig = {
   swcMinify: true,
   redirects: async () => [
     {
-      source: "/assets/basketball/play.html",
-      destination: "/basketball/play",
-      permanent: false
+      source: '/assets/basketball/play.html',
+      destination: '/basketball/play',
+      permanent: false,
     },
   ],
   rewrites: async () => [
     {
-      source: "/basketball/play",
-      destination: "/assets/basketball/play.html",
-    }
-  ]
+      source: '/basketball/play',
+      destination: '/assets/basketball/play.html',
+    },
+  ],
 }
 
 module.exports = nextConfig
