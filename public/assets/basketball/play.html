@@ -19,8 +19,15 @@
       }
 
       canvas {
-        margin: 0 auto;
+        padding: 0;
+        margin: auto;
+        display: block;
+        position: absolute;
         border: thin solid black;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
       }
     </style>
   </head>
@@ -198,7 +205,7 @@
         timeLeftText.text = Math.ceil(timeLeft.duration.toFixed(0) / 1000)
         scoreText.text = score
 
-        // C
+        // Mostly used for loading our custom font for the first time
         if (
           !digital7Loaded &&
           document.fonts.check(`${gameParams.digitsFontSize}px Digital-7 Mono`)
