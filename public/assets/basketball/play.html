@@ -336,7 +336,10 @@
         // evaluate the window height and width to determine
         // the largest size we can render the game on a
         // 9x14 aspect ratio.
-        if (windowWidth < windowHeight) {
+        if (
+          windowWidth < windowHeight &&
+          windowWidth * (14 / 9) < windowHeight
+        ) {
           gameParams.width = windowWidth
           gameParams.height = gameParams.width * (14 / 9)
         } else {
