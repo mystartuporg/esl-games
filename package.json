@@ -2,6 +2,13 @@
   "name": "esl-games",
   "version": "0.1.0",
   "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mystartuporg/esl-games.git"
+  },
+  "workspaces": [
+    "apps/*"
+  ],
   "scripts": {
     "dev": "next dev",
     "build": "next build",
