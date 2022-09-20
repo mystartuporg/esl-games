@@ -35,6 +35,17 @@
   <body>
     <script type="text/javascript">
       var gameParams = computeGameParams()
+
+      var accepted = localStorage.getItem("accepted")
+      var fullName = localStorage.getItem("fullName")
+      var mobileNumber = localStorage.getItem("mobileNumber")
+      var emailAddress = localStorage.getItem("emailAddress")
+
+      if (accepted === null) 
+        window.location.href = '/basketball/terms-conditions'
+      else if ((fullName === null) || (mobileNumber === null) || (emailAddress === null)) {
+        window.location.href = '/basketball/user-form'
+      }
       // TODO
       // add a check here if the user has already submitted the info using the form
       // if not yet submitted, redirect to user form
@@ -345,6 +356,7 @@
         }
         gameIsOver = true
         console.log('Game Over. Final Score is ' + score)
+        localStorage.setItem("score", score)
         window.location.href = '/basketball/rewards-message'
         // TODO
         // set localStorage value for the final points
