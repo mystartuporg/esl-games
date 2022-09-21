@@ -55,11 +55,13 @@
         game.load.image('ball', '/assets/basketball/images/ball.png')
         game.load.image('side rim', '/assets/basketball/images/side_rim.png')
         game.load.image('front rim', '/assets/basketball/images/front_rim.png')
-        game.load.audio('score', '/assets/basketball/audio/score.wav')
-        game.load.audio('backboard', '/assets/basketball/audio/backboard.wav')
-        game.load.audio('whoosh', '/assets/basketball/audio/whoosh.wav')
-        game.load.audio('spawn', '/assets/basketball/audio/spawn.wav')
-        game.load.audio('buzzer', '/assets/basketball/audio/buzzer.wav')
+        if (gameParams.playAudio) {
+          game.load.audio('score', '/assets/basketball/audio/score.wav')
+          game.load.audio('backboard', '/assets/basketball/audio/backboard.wav')
+          game.load.audio('whoosh', '/assets/basketball/audio/whoosh.wav')
+          game.load.audio('spawn', '/assets/basketball/audio/spawn.wav')
+          game.load.audio('buzzer', '/assets/basketball/audio/buzzer.wav')
+        }
       }
 
       const TIME = 30000 // 30 seconds
@@ -70,7 +72,8 @@
       var timeLeft,
         score = 0,
         scoreText,
-        timeLeftText
+        timeLeftText,
+        gameIsOver = false
       var digital7Loaded
       var bgImageScale
 
@@ -106,14 +109,16 @@
 
         collisionGroup = game.physics.p2.createCollisionGroup()
 
-        scoreSound = game.add.audio('score')
-        rimHitSound = game.add.audio('backboard')
-        rimHitSound.volume = 0.3
-        throwSound = game.add.audio('whoosh')
-        spawnSound = game.add.audio('spawn')
-        buzzerSound = game.add.audio('buzzer')
-        buzzerSound.volume = 0.3
-        buzzerSound.onStop.add(gameOver, this)
+        if (gameParams.playAudio) {
+          scoreSound = game.add.audio('score')
+          rimHitSound = game.add.audio('backboard')
+          rimHitSound.volume = 0.3
+          throwSound = game.add.audio('whoosh')
+          spawnSound = game.add.audio('spawn')
+          buzzerSound = game.add.audio('buzzer')
+          buzzerSound.volume = 0.3
+          buzzerSound.onStop.add(gameOver, this)
+        }
 
         scoreText = game.add.text(0, 0, '', {
           font: 'Digital-7 Mono',
@@ -165,10 +170,11 @@
       }
 
       function timesUp() {
-        buzzerSound.play()
+        playSound(buzzerSound)
         if (!ballSprite.launched) {
           ballSprite.kill()
         }
+        gameOver()
       }
 
       function update() {
@@ -190,7 +196,7 @@
             ballSprite.body.x < gameParams.rightWinningRange
           ) {
             score += 1
-            scoreSound.play()
+            playSound(scoreSound)
           }
         }
 
@@ -199,6 +205,8 @@
           ballSprite.kill()
           if (timeLeft.duration > 0) {
             createBall()
+          } else {
+            gameOver()
           }
         }
 
@@ -217,7 +225,7 @@
       }
 
       function hitRim() {
-        rimHitSound.play()
+        playSound(rimHitSound)
       }
 
       function createBall() {
@@ -230,7 +238,7 @@
             Math.random() *
               (gameParams.width - getPercent(30, gameParams.width))
         }
-        spawnSound.play()
+        playSound(spawnSound)
         ballSprite = game.add.sprite(xpos, gameParams.ballSpawnYPos, 'ball')
         // Ball is currently meant for a 405 width resolution
         // TODO get a better ball
@@ -313,7 +321,7 @@
           ballSprite.body.velocity.x = x_traj
           ballSprite.body.velocity.y = gameParams.ballLaunchVelocityY
           ballSprite.body.rotateRight(x_traj / gameParams.ballSpinRate)
-          throwSound.play()
+          playSound(throwSound)
 
           if (timeLeft.duration <= 0) {
             timeLeft.add(TIME, timesUp, this)
@@ -321,7 +329,21 @@
         }
       }
 
+      function playSound(sound) {
+        if (gameParams.playAudio) {
+          sound.play()
+        }
+      }
+
       function gameOver() {
+        if (
+          (buzzerSound && buzzerSound.isPlaying) ||
+          (ballSprite && ballSprite.alive) ||
+          gameIsOver
+        ) {
+          return
+        }
+        gameIsOver = true
         console.log('Game Over. Final Score is ' + score)
         window.location.href = '/basketball/rewards-message'
         // TODO
@@ -372,6 +394,14 @@
         gameParams.ballLaunchVelocityX = getPercent(567.9, x) * -1
         gameParams.ballLaunchVelocityY = getPercent(432.1, x) * -1
         gameParams.ballSpinRate = getPercent(0.74, x)
+        // Code to determine if browser being used is Safari.
+        // Safari has issues playing wav files so we disable audio
+        // for this browser.
+        var userAgentString = navigator.userAgent
+        var chromeAgent = userAgentString.indexOf('Chrome') > -1
+        var safariAgent = userAgentString.indexOf('Safari') > -1
+        if (chromeAgent && safariAgent) safariAgent = false // if chromeAgent is true, then safariAgent is a false-flag
+        gameParams.playAudio = !safariAgent
 
         return gameParams
       }
