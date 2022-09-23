@@ -39,7 +39,11 @@ export default function TermsConditions() {
     formState: { isValid },
     handleSubmit,
     control,
-  } = useForm()
+  } = useForm({
+    defaultValues: {
+      accepted: false
+    },
+  })
   const router = useRouter()
   const onSubmit: SubmitHandler<IFormInput> = () =>
     router.push('/basketball/user-form')
