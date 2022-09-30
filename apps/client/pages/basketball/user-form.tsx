@@ -29,19 +29,18 @@ export default function UserForm() {
   const onSubmit: SubmitHandler<IFormInput> = (data) => {
     
     if (data !== undefined) {
-      localStorage.setItem("fullName", data.fullName)
-      localStorage.setItem("mobileNumber", data.mobileNumber)
-      localStorage.setItem("emailAddress", data.emailAddress !== undefined ? data.emailAddress : "N/A")    
+      sessionStorage.setItem("fullName", data.fullName)
+      sessionStorage.setItem("mobileNumber", data.mobileNumber)
+      sessionStorage.setItem("emailAddress", data.emailAddress !== undefined ? data.emailAddress : "N/A")    
     }
     router.push('/basketball/play')
   }
 
   useEffect(() => {
-    var accepted = localStorage.getItem("accepted")
+    var accepted = sessionStorage.getItem("accepted")
     if (accepted === null)
       router.push('/basketball/play')
   })
-  
 
   return (
     <Grid

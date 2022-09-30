@@ -43,7 +43,7 @@ export default function TermsConditions() {
   const router = useRouter()
   const onSubmit: SubmitHandler<IFormInput> = (data) => {
     if (data !== undefined) {
-      localStorage.setItem("accepted", data.accepted ? "true" : "false")
+      sessionStorage.setItem("accepted", data.accepted ? "true" : "false")
     }
     router.push('/basketball/user-form')
   }

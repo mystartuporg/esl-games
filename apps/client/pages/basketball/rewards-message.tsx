@@ -38,11 +38,11 @@ export default function TermsConditions() {
   }
 
   useEffect(() => {
-    var accepted = localStorage.getItem("accepted")
-    var fullName = localStorage.getItem("fullName")
-    var mobileNumber = localStorage.getItem("mobileNumber")
-    var emailAddress = localStorage.getItem("emailAddress")
-    var score = localStorage.getItem("score")
+    var accepted = sessionStorage.getItem("accepted")
+    var fullName = sessionStorage.getItem("fullName")
+    var mobileNumber = sessionStorage.getItem("mobileNumber")
+    var emailAddress = sessionStorage.getItem("emailAddress")
+    var score = sessionStorage.getItem("score")
 
     if (accepted === null)
       router.push('/basketball/terms-conditions')
