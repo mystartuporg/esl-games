@@ -8,6 +8,11 @@ const nextConfig = {
       destination: '/basketball/play',
       permanent: false,
     },
+    {
+      source: '/',
+      destination: '/basketball/terms-conditions',
+      permanent: false,
+    },
   ],
   rewrites: async () => [
     {
