@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import {
   Controller,
   SubmitHandler,
@@ -36,6 +36,21 @@ export default function TermsConditions() {
   const onSubmitError: SubmitErrorHandler<IFormInput> = (errors) => {
     setErrorMessage('Cannot proceed until terms and conditions are accepted.')
   }
+
+  useEffect(() => {
+    var accepted = sessionStorage.getItem("accepted")
+    var fullName = sessionStorage.getItem("fullName")
+    var mobileNumber = sessionStorage.getItem("mobileNumber")
+    var emailAddress = sessionStorage.getItem("emailAddress")
+    var score = sessionStorage.getItem("score")
+
+    if (accepted === null)
+      router.push('/basketball/terms-conditions')
+    else if ((fullName === null) || (mobileNumber === null) || (emailAddress === null))
+      router.push('/basketball/user-form')
+    else if (score === null)
+      router.push('/basketball/play')
+  })
 
   return (
     <Grid

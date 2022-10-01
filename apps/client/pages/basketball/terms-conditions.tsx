@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import {
   Controller,
   SubmitHandler,
@@ -18,7 +18,7 @@ import {
 } from '@mui/material'
 
 interface IFormInput {
-  accepted?: Boolean
+  accepted: boolean
 }
 
 const LIPSUM = `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque vulputate mattis ullamcorper. Morbi sed euismod lacus, venenatis cursus velit. Cras consectetur pharetra nulla in ultrices. Maecenas eu placerat sapien, sit amet lacinia justo. Interdum et malesuada fames ac ante ipsum primis in faucibus. Proin volutpat ut lacus sed sollicitudin. Sed vel erat non velit ultrices luctus. Nam at lacus accumsan, pretium velit in, aliquam dolor. Aliquam sit amet ex eu metus feugiat ultricies non non velit. Nulla facilisi. Maecenas eget vehicula arcu, eget elementum dolor. In vel porta diam, a fermentum dolor. In ac pellentesque ex. Nunc convallis lacinia turpis, in varius mi condimentum sit amet.
@@ -41,11 +41,22 @@ export default function TermsConditions() {
     control,
   } = useForm()
   const router = useRouter()
-  const onSubmit: SubmitHandler<IFormInput> = () =>
+
+  const onSubmit: SubmitHandler<IFormInput> = (data) => {
+    if (data !== undefined) {
+      sessionStorage.setItem("accepted", data.accepted ? "true" : "false")
+    }
     router.push('/basketball/user-form')
+  }
   const onSubmitError: SubmitErrorHandler<IFormInput> = (errors) => {
     setErrorMessage('Cannot proceed until terms and conditions are accepted.')
   }
+
+  useEffect(() => {
+    var score = sessionStorage.getItem("score")
+    if (score !== null)
+      router.push('/basketball/rewards-message')
+  })
 
   return (
     <Grid
@@ -83,7 +94,7 @@ export default function TermsConditions() {
             flexDirection: 'column',
             padding: '200px 40px 20px',
             height: '80%',
-            width: 495,
+            // width: 495,
             margin: 'auto 0px 40px',
           }}
         >
@@ -103,7 +114,7 @@ export default function TermsConditions() {
               typography: 'body1',
               textAlign: 'justify',
             }}
-            maxWidth={430}
+            // maxWidth={430}
             style={{ margin: 'auto' }}
           >
             <Typography variant="body1" align="justify">

@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { useEffect } from 'react'
 import { useForm, Controller, SubmitHandler } from 'react-hook-form'
 import { useRouter } from 'next/router'
 import { Button, Grid, Paper, TextField, Typography } from '@mui/material'
@@ -6,9 +6,9 @@ import { MuiTelInput, matchIsValidTel } from 'mui-tel-input'
 import { SportsBasketball } from '@mui/icons-material'
 
 interface IFormInput {
-  fullName?: String
-  mobileNumber?: String
-  emailAddress?: String
+  fullName: string
+  mobileNumber: string
+  emailAddress?: string
 }
 
 export default function UserForm() {
@@ -25,8 +25,27 @@ export default function UserForm() {
     },
   })
   const router = useRouter()
-  const onSubmit: SubmitHandler<IFormInput> = (data) =>
+
+  const onSubmit: SubmitHandler<IFormInput> = (data) => {
+    
+    if (data !== undefined) {
+      sessionStorage.setItem("fullName", data.fullName)
+      sessionStorage.setItem("mobileNumber", data.mobileNumber)
+      sessionStorage.setItem("emailAddress", data.emailAddress !== undefined ? data.emailAddress : "N/A")    
+    }
     router.push('/basketball/play')
+  }
+
+  useEffect(() => {
+    var accepted = sessionStorage.getItem("accepted")
+    var score = sessionStorage.getItem("score")
+    if (accepted === null) {
+      router.push('/basketball/play')
+    }
+    else if (score !== null) {
+      router.push('/basketball/rewards-message')
+    }
+  })
 
   return (
     <Grid
