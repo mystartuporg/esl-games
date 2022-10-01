@@ -38,8 +38,13 @@ export default function UserForm() {
 
   useEffect(() => {
     var accepted = sessionStorage.getItem("accepted")
-    if (accepted === null)
+    var score = sessionStorage.getItem("score")
+    if (accepted === null) {
       router.push('/basketball/play')
+    }
+    else if (score !== null) {
+      router.push('/basketball/rewards-message')
+    }
   })
 
   return (
