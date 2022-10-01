@@ -84,11 +84,13 @@
       var leftRimSprite, rightRimSprite, frontRimSprite, ballSprite
       var scoreSound, rimHitSound, throwSound, spawnSound, buzzerSound
       var collisionGroup
-      var timeLeft,
-        score = 0,
+      var score = 0,
         scoreText,
         timeLeftText,
-        gameIsOver = false
+        gameIsOver = false,
+        endTime, // time in millis that signifies the end of the game when hit
+        timeLeft = 0,
+        timeExpired = false // turns to true when timeLeft gets to 0
       var digital7Loaded
       var bgImageScale
 
@@ -150,8 +152,6 @@
         )
         scoreText.visible = false
 
-        timeLeft = game.time.create(false)
-        timeLeft.start()
         timeLeftText = game.add.text(0, 0, '', {
           font: 'Digital-7 Mono',
           fontSize: `${gameParams.digitsFontSize}px`,
@@ -176,20 +176,43 @@
         rightRimSprite.body.setCollisionGroup(collisionGroup)
         rightRimSprite.body.collides([collisionGroup])
 
-        createBall()
-
         cursors = game.input.keyboard.createCursorKeys()
 
         game.input.onDown.add(click, this)
         game.input.onUp.add(release, this)
+
+        const existingEndTime = sessionStorage.getItem('endTime')
+        if (existingEndTime) {
+          endTime = existingEndTime
+          const now = new Date()
+          if (now.getTime() >= endTime) {
+            gameOver()
+          }
+        }
+
+        const existingScore = sessionStorage.getItem('score')
+        if (existingScore) {
+          score = Number(existingScore)
+        }
+
+        createBall()
+      }
+
+      function timerStart() {
+        const now = new Date()
+        endTime = now.getTime() + TIME
+        sessionStorage.setItem('endTime', endTime)
       }
 
       function timesUp() {
-        playSound(buzzerSound)
         if (!ballSprite.launched) {
           ballSprite.kill()
         }
-        gameOver()
+        if (gameParams.playAudio) {
+          playSound(buzzerSound)
+        } else {
+          gameOver()
+        }
       }
 
       function update() {
@@ -212,20 +235,26 @@
           ) {
             score += 1
             playSound(scoreSound)
+            sessionStorage.setItem('score', score)
           }
+        }
+
+        const now = new Date()
+        timeLeft = endTime > now.getTime() ? endTime - now.getTime() : 0
+        if (timeLeft == 0 && endTime && !timeExpired) {
+          timeExpired = true
+          timesUp()
         }
 
         if (ballSprite && ballSprite.body.y > gameParams.ballDeadEnd) {
           game.physics.p2.gravity.y = 0
           ballSprite.kill()
-          if (timeLeft.duration > 0) {
+          if (timeLeft > 0) {
             createBall()
-          } else {
-            gameOver()
           }
         }
 
-        timeLeftText.text = Math.ceil(timeLeft.duration.toFixed(0) / 1000)
+        timeLeftText.text = Math.ceil(timeLeft / 1000)
         scoreText.text = score
 
         // Mostly used for loading our custom font for the first time
@@ -316,7 +345,7 @@
       }
 
       function launch(x_traj) {
-        if (ballSprite.launched === false && !timeLeft.expired) {
+        if (ballSprite.launched === false && !timeExpired) {
           ballSprite.body.setCircle((120 * (ballSprite.scale.x * 0.6)) / 2) // 120 is the size of the ball image
           ballSprite.body.setCollisionGroup(collisionGroup)
           ballSprite.launched = true
@@ -338,8 +367,9 @@
           ballSprite.body.rotateRight(x_traj / gameParams.ballSpinRate)
           playSound(throwSound)
 
-          if (timeLeft.duration <= 0) {
-            timeLeft.add(TIME, timesUp, this)
+          // if endTime is not yet set, start the timer
+          if (!endTime) {
+            timerStart()
           }
         }
       }
@@ -351,20 +381,11 @@
       }
 
       function gameOver() {
-        if (
-          (buzzerSound && buzzerSound.isPlaying) ||
-          (ballSprite && ballSprite.alive) ||
-          gameIsOver
-        ) {
+        if ((ballSprite && ballSprite.alive) || gameIsOver) {
           return
         }
         gameIsOver = true
-        console.log('Game Over. Final Score is ' + score)
-        sessionStorage.setItem("score", score)
         window.location.href = '/basketball/rewards-message'
-        // TODO
-        // set sessionStorage value for the final points
-        // redirect to rewards page
       }
 
       function computeGameParams() {
