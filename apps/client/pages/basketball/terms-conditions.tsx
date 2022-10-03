@@ -7,49 +7,45 @@ import {
 } from 'react-hook-form'
 import { useRouter } from 'next/router'
 import {
-  Box,
   Button,
+  Checkbox,
   FormControlLabel,
   FormHelperText,
   Grid,
   Paper,
-  Switch,
   Typography,
 } from '@mui/material'
 
 interface IFormInput {
-  accepted: boolean
+  accepted?: boolean
+  brand_newsletter?: boolean
+  ulp_newsletter?: boolean
 }
-
-const LIPSUM = `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque vulputate mattis ullamcorper. Morbi sed euismod lacus, venenatis cursus velit. Cras consectetur pharetra nulla in ultrices. Maecenas eu placerat sapien, sit amet lacinia justo. Interdum et malesuada fames ac ante ipsum primis in faucibus. Proin volutpat ut lacus sed sollicitudin. Sed vel erat non velit ultrices luctus. Nam at lacus accumsan, pretium velit in, aliquam dolor. Aliquam sit amet ex eu metus feugiat ultricies non non velit. Nulla facilisi. Maecenas eget vehicula arcu, eget elementum dolor. In vel porta diam, a fermentum dolor. In ac pellentesque ex. Nunc convallis lacinia turpis, in varius mi condimentum sit amet.
-
-Sed euismod nulla sed purus tempor commodo. Suspendisse egestas varius est auctor congue. Cras ut augue vel dui efficitur imperdiet eget ac ligula. Praesent vestibulum ex eget velit ultrices dignissim. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Fusce nisl felis, sagittis vel ante ac, ullamcorper dapibus ex. Pellentesque sed laoreet lectus. Donec nibh orci, ornare at bibendum commodo, condimentum eget libero. Maecenas vel lorem quam. Praesent nunc mauris, dignissim non porta vehicula, dapibus sit amet justo. Vestibulum lorem nulla, lobortis ut leo nec, cursus viverra nunc. Aliquam fringilla consectetur finibus.
-
-Nulla quis feugiat libero. Vivamus sed dignissim orci. Fusce ut aliquet quam. Etiam tempor at sapien a elementum. Nulla facilisi. Praesent finibus vel lectus non lobortis. Vestibulum leo libero, consequat quis turpis et, sodales volutpat magna. Suspendisse quis accumsan arcu, eu eleifend nulla. Maecenas mi libero, rhoncus et est quis, accumsan aliquam libero. Cras sapien neque, condimentum ac convallis in, faucibus et turpis. Mauris mauris magna, iaculis quis accumsan nec, dictum nec neque. Nam efficitur imperdiet ullamcorper.
-
-Nulla pharetra, nisi et mattis dignissim, turpis metus suscipit ipsum, vitae consequat ipsum turpis eget dui. Curabitur id magna nec ipsum feugiat mollis. In est ante, malesuada scelerisque sollicitudin vulputate, interdum at sem. Vivamus nulla purus, vestibulum eu tincidunt nec, pulvinar sit amet odio. Aliquam varius at neque sit amet ultricies. Curabitur non dapibus odio. Aenean eu nisi id erat fringilla efficitur. Vivamus congue ipsum id risus vehicula consequat. Duis nisi dui, tincidunt in interdum ac, efficitur quis arcu. Duis mattis erat tellus, et posuere metus semper a. Phasellus pharetra vitae sapien nec ultricies. Duis consequat rhoncus convallis. Fusce id volutpat lacus, sit amet volutpat augue. Proin porttitor erat magna. Ut malesuada condimentum ultrices.
-
-Fusce sed imperdiet ligula, viverra interdum tellus. Sed finibus ac enim sed ornare. Praesent risus sapien, tristique at laoreet eu, faucibus eu mi. Proin maximus turpis et elit blandit, quis fermentum massa auctor. Ut ipsum diam, pretium ut urna et, porttitor dapibus libero. Pellentesque sed rutrum elit. Vestibulum luctus turpis quis justo ultrices, nec dignissim ex ultrices. Maecenas posuere hendrerit lectus, facilisis fringilla libero semper eget. Donec in velit est. Integer egestas ex non scelerisque commodo. In pulvinar dictum efficitur. Fusce mattis in erat eget eleifend.
-`
 
 export default function TermsConditions() {
   const [errorMessage, setErrorMessage] = React.useState('')
   const {
-    register,
-    formState: { isValid },
     handleSubmit,
     control,
-  } = useForm()
+  } = useForm({
+    defaultValues: {
+      accepted: false,
+      brand_newsletter: false,
+      ulp_newsletter: false
+    },
+  })
   const router = useRouter()
 
   const onSubmit: SubmitHandler<IFormInput> = (data) => {
     if (data !== undefined) {
       sessionStorage.setItem("accepted", data.accepted ? "true" : "false")
+      sessionStorage.setItem("brand_newsletter", data.brand_newsletter ? "true" : "false")
+      sessionStorage.setItem("ulp_newsletter", data.ulp_newsletter ? "true" : "false")
     }
     router.push('/basketball/user-form')
   }
   const onSubmitError: SubmitErrorHandler<IFormInput> = (errors) => {
-    setErrorMessage('Cannot proceed until terms and conditions are accepted.')
+    setErrorMessage('Cannot proceed until required field is selected.')
   }
 
   useEffect(() => {
@@ -68,34 +64,17 @@ export default function TermsConditions() {
     >
       <Grid
         item
-        md={8}
+        md={10}
         lg={4}
         justifyContent="center"
         textAlign="center"
         style={{ display: 'flex', flexDirection: 'column' }}
       >
-        <img
-          alt="basketball-hoop"
-          src="/assets/images/basketball-hoop.png"
-          style={{
-            display: 'flex',
-            maxWidth: 360,
-            maxHeight: 341,
-            position: 'fixed',
-            top: '3%',
-            left: '50%',
-            marginLeft: -180,
-          }}
-        />
-
         <Paper
           style={{
             display: 'flex',
             flexDirection: 'column',
-            padding: '200px 40px 20px',
-            height: '80%',
-            // width: 495,
-            margin: 'auto 0px 40px',
+            padding: '20px',
           }}
         >
           <Typography
@@ -106,27 +85,17 @@ export default function TermsConditions() {
           >
             Terms And Conditions
           </Typography>
-          <Box
-            sx={{
-              height: 400,
-              overflow: 'hidden',
-              overflowY: 'scroll',
-              typography: 'body1',
-              textAlign: 'justify',
-            }}
-            // maxWidth={430}
-            style={{ margin: 'auto' }}
-          >
-            <Typography variant="body1" align="justify">
-              {LIPSUM}
-            </Typography>
-          </Box>
+          <Typography variant="h6" align="justify" style={{ margin: 20 }}>
+            <i>
+              Please read our Privacy Notice to understand how we use your personal data. For any questions or concerns on the use of your personal data, please contact Unilever Philippines, Inc. at privacy.ph@unilever.com, 02-588-8800 or toll free at 1-800-105647258.
+            </i>
+          </Typography>
           <form
             onSubmit={handleSubmit(onSubmit, onSubmitError)}
             style={{
               display: 'flex',
               flexDirection: 'column',
-              margin: 'auto auto 10px',
+              margin: 'auto',
             }}
           >
             <Controller
@@ -136,7 +105,26 @@ export default function TermsConditions() {
               render={({ field }) => (
                 <FormControlLabel
                   control={
-                    <Switch
+                    <Checkbox
+                      {...field}
+                      onChange={(e) => {
+                        setErrorMessage('')
+                        field.onChange(e)
+                      }}
+                      required
+                    />
+                  }
+                  label="I confirm that I am 18 years old"
+                />
+                )}
+            />
+            <Controller
+              name="brand_newsletter"
+              control={control}
+              render={({ field }) => (
+                <FormControlLabel
+                  control={
+                    <Checkbox
                       {...field}
                       onChange={(e) => {
                         setErrorMessage('')
@@ -144,13 +132,35 @@ export default function TermsConditions() {
                       }}
                     />
                   }
-                  label="I have read and accepted the terms and conditions"
+                  label="Sign me up to receive exciting news and offers from Rexona"
+                />
+              )}
+            />
+            <Controller
+              name="ulp_newsletter"
+              control={control}
+              render={({ field }) => (
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      {...field}
+                      onChange={(e) => {
+                        setErrorMessage('')
+                        field.onChange(e)
+                      }}
+                    />
+                  }
+                  label="Sign me up to receive exciting news and offers from other Unilever brands"
                 />
               )}
             />
             <FormHelperText error={true}>{errorMessage}</FormHelperText>
-            <Button variant="contained" type="submit" style={{ marginTop: 10 }}>
-              Proceed
+            <Button variant="outlined" href="https://www.unilevernotices.com/philippines/english/privacy-notice/notice.html"  style={{ marginTop: 10 }}>
+              Read Privacy Notice
+            </Button>
+            or
+            <Button variant="contained" type="submit" style={{ marginTop: 10, background: '#EF5B0C' }}>
+              Accept
             </Button>
           </form>
         </Paper>
