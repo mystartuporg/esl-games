@@ -64,7 +64,8 @@ export default function TermsConditions() {
     >
       <Grid
         item
-        md={10}
+        xs={11}
+        md={8}
         lg={4}
         justifyContent="center"
         textAlign="center"
@@ -78,14 +79,14 @@ export default function TermsConditions() {
           }}
         >
           <Typography
-            variant="h4"
+            variant="h5"
             gutterBottom
             align="center"
             style={{ marginTop: 10, color: '#003865' }}
           >
             Terms And Conditions
           </Typography>
-          <Typography variant="h6" align="justify" style={{ margin: 20 }}>
+          <Typography variant="body2" align="justify" style={{ margin: '10' }}>
             <i>
               Please read our Privacy Notice to understand how we use your personal data. For any questions or concerns on the use of your personal data, please contact Unilever Philippines, Inc. at privacy.ph@unilever.com, 02-588-8800 or toll free at 1-800-105647258.
             </i>
