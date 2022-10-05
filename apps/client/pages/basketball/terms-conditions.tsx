@@ -78,19 +78,6 @@ export default function TermsConditions() {
             padding: '20px',
           }}
         >
-          <Typography
-            variant="h5"
-            gutterBottom
-            align="center"
-            style={{ marginTop: 10, color: '#003865' }}
-          >
-            Terms And Conditions
-          </Typography>
-          <Typography variant="body2" align="justify" style={{ margin: '10' }}>
-            <i>
-              Please read our Privacy Notice to understand how we use your personal data. For any questions or concerns on the use of your personal data, please contact Unilever Philippines, Inc. at privacy.ph@unilever.com, 02-588-8800 or toll free at 1-800-105647258.
-            </i>
-          </Typography>
           <form
             onSubmit={handleSubmit(onSubmit, onSubmitError)}
             style={{
@@ -116,6 +103,12 @@ export default function TermsConditions() {
                     />
                   }
                   label="I confirm that I am 18 years old"
+                  sx={{
+                    '& >span': {
+                      textAlign: 'left',
+                      fontSize: '0.8rem'
+                    }
+                  }}
                 />
                 )}
             />
@@ -134,6 +127,12 @@ export default function TermsConditions() {
                     />
                   }
                   label="Sign me up to receive exciting news and offers from Rexona"
+                  sx={{
+                    '& >span': {
+                      textAlign: 'left',
+                      fontSize: '0.8rem'
+                    }
+                  }}
                 />
               )}
             />
@@ -152,14 +151,21 @@ export default function TermsConditions() {
                     />
                   }
                   label="Sign me up to receive exciting news and offers from other Unilever brands"
+                  sx={{
+                    '& >span': {
+                      textAlign: 'left',
+                      fontSize: '0.8rem'
+                    }
+                  }}               
                 />
               )}
             />
             <FormHelperText error={true}>{errorMessage}</FormHelperText>
-            <Button variant="outlined" href="https://www.unilevernotices.com/philippines/english/privacy-notice/notice.html"  style={{ marginTop: 10 }}>
-              Read Privacy Notice
-            </Button>
-            or
+            <Typography variant="body2" align="justify" sx={{ fontSize: '0.6rem' }}>
+              <i>
+                Please read our <a style={{ color: "blue", textDecoration: "underline" }} href="https://www.unilevernotices.com/philippines/english/privacy-notice/notice.html">Privacy Notice</a> to understand how we use your personal data. For any questions or concerns on the use of your personal data, please contact Unilever Philippines, Inc. at privacy.ph@unilever.com, 02-588-8800 or toll free at 1-800-105647258.
+              </i>
+            </Typography>
             <Button variant="contained" type="submit" style={{ marginTop: 10, background: '#EF5B0C' }}>
               Accept
             </Button>
