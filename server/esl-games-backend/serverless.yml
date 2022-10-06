@@ -59,22 +59,23 @@ provider:
 
 plugins:
   - serverless-offline
+  - serverless-plugin-typescript
 
 functions:
-  hello:
-    handler: handler.hello
+  # hello:
+  #   handler: handler.hello
   userInformation:
     handler: userInformation.userInformation
     events:
       - http:
-        path: userInfo
-        method: post
+          path: userInfo
+          method: post
   getRewards:
     handler: getRewards.getRewards
     events:
       - http:
-        path: rewards
-        method: get
+          path: rewards
+          method: get
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events
 #    Check the event documentation for details
