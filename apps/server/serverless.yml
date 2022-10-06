@@ -58,9 +58,19 @@ provider:
 #    - include-me.js
 #    - include-me-dir/**
 
+plugins:
+  - serverless-offline
+  - serverless-plugin-typescript
+
 functions:
   hello:
     handler: handler.hello
+  userInformation:
+    handler: userInformation.userInformation
+    events:
+      - http:
+          path: userInfo
+          method: post
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events
 #    Check the event documentation for details
@@ -112,3 +122,16 @@ functions:
 #     NewOutput:
 #       Description: "Description for the output"
 #       Value: "Some output value"
+custom:
+  stage: ${opt:stage, self:provider.stage}
+  domains:
+    prod: esl-games-api.retsol.ph
+    staging: staging-esl-games-api.retsol.ph
+    dev: dev-esl-games-api.retsol.ph
+
+  customDomain:
+    domainName: ${self:custom.domains.${self:custom.stage}}
+    stage: ${self:custom.stage}
+    certificateName: '*.retsol.ph'
+    createRoute53Record: true
+    endpointType: regional
