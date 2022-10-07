@@ -89,42 +89,50 @@ export default function RewardsSelect() {
           <Box style={{ overflowY: 'auto', height: '40vh', padding: 10 }}>
             <Grid container spacing={1} alignItems="stretch">
               {gcs.map((gc) => (
-                <Grid item xs={6} sm={4} md={3} key={gc.id}>
+                <Grid item xs={12} key={gc.id}>
                   <Card
                     raised={selectedMerchant === gc.id}
                     style={{
-                      padding: '5px',
                       height: '100%',
                       position: 'relative',
                       cursor: 'pointer',
+                      padding: 10,
                     }}
                     onClick={() => setSelectedMerchant(gc.id)}
                   >
-                    <CardMedia
-                      component="img"
-                      height="100"
-                      image={gc.img}
-                      alt={gc.name}
-                      title={gc.name}
-                      style={{ objectFit: 'contain' }}
-                    />
-                    <CardContent style={{ padding: '0', margin: '5px' }}>
-                      <Typography gutterBottom variant="body1" component="div">
-                        {gc.name}
-                      </Typography>
-                      {selectedMerchant === gc.id && (
-                        <Checkbox
-                          checked
-                          icon={<CheckCircleOutline />}
-                          checkedIcon={<CheckCircleOutline />}
-                          style={{
-                            position: 'absolute',
-                            right: '0px',
-                            top: '0px',
-                          }}
+                    <Grid container alignItems="center">
+                      <Grid item xs={6}>
+                        <CardContent>
+                          <Typography
+                            variant="h6"
+                            style={{ wordBreak: 'break-word' }}
+                          >
+                            {gc.name}
+                          </Typography>
+                          {selectedMerchant === gc.id && (
+                            <CheckCircleOutline
+                              color="primary"
+                              style={{
+                                position: 'absolute',
+                                right: '0px',
+                                top: '0px',
+                                margin: 10,
+                              }}
+                            />
+                          )}
+                        </CardContent>
+                      </Grid>
+                      <Grid item xs={6}>
+                        <CardMedia
+                          component="img"
+                          height="100"
+                          image={gc.img}
+                          alt={gc.name}
+                          title={gc.name}
+                          style={{ objectFit: 'contain' }}
                         />
-                      )}
-                    </CardContent>
+                      </Grid>
+                    </Grid>
                   </Card>
                 </Grid>
               ))}
