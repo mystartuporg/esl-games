@@ -61,6 +61,7 @@ provider:
 plugins:
   - serverless-offline
   - serverless-plugin-typescript
+  - serverless-dotenv-plugin
 
 functions:
   hello:

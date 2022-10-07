@@ -37,22 +37,35 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.userInformation = void 0;
-var userInformation = function (event, context) { return __awaiter(void 0, void 0, void 0, function () {
-    var body;
+var uuid_1 = require("uuid");
+var mysql = require("serverless-mysql")({
+    config: {
+        host: process.env.ENDPOINT,
+        database: process.env.DATABASE,
+        user: process.env.USER,
+        password: process.env.PASSWORD
+    },
+    library: require("mysql2")
+});
+var userInformation = function (event) { return __awaiter(void 0, void 0, void 0, function () {
+    var body, useruuid;
     var _a;
     return __generator(this, function (_b) {
-        body = JSON.parse((_a = event.body) !== null && _a !== void 0 ? _a : "");
-        // let results = await mysql.query('INSERT INTO testTable (Name, MobileNumber, EmailAddress) VALUES (?, ?, ?)', [body.fullName, body.mobileNumber, body.emailAddress/*, body.brand_Newsletter, body.ulp_Newsletter, body.userTransaction*/])
-        // await mysql.end()
-        // return results
-        return [2 /*return*/, {
-                statusCode: 200,
-                body: JSON.stringify({
-                    fullName: body.fullName,
-                    mobileNumber: body.mobileNumber,
-                    emailAddress: body.emailAddress
-                })
-            }];
+        switch (_b.label) {
+            case 0:
+                body = JSON.parse((_a = event.body) !== null && _a !== void 0 ? _a : "");
+                useruuid = (0, uuid_1.v4)();
+                return [4 /*yield*/, mysql.query('INSERT INTO users (id, name, mobile, email, newsletter_brand, newsletter_ulp) VALUES (?, ?, ?, ?, ?, ?)', [useruuid, body.fullName, body.mobileNumber, body.emailAddress, body.brand_Newsletter, body.ulp_Newsletter])];
+            case 1:
+                _b.sent();
+                return [4 /*yield*/, mysql.end()];
+            case 2:
+                _b.sent();
+                return [2 /*return*/, {
+                        statusCode: 200,
+                        body: JSON.stringify({ message: 'Insert successful' })
+                    }];
+        }
     });
 }); };
 exports.userInformation = userInformation;
