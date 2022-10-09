@@ -29,6 +29,7 @@ export default function RewardsSelect() {
     let mobileNumber = sessionStorage.getItem('mobileNumber')
     let emailAddress = sessionStorage.getItem('emailAddress')
     let score = sessionStorage.getItem('score')
+    let selectedMerchant = sessionStorage.getItem('selectedMerchant')
 
     if (accepted === null) router.push('/basketball/terms-conditions')
     else if (
@@ -38,6 +39,7 @@ export default function RewardsSelect() {
     )
       router.push('/basketball/user-form')
     else if (score === null) router.push('/basketball/play')
+    else if (selectedMerchant !== null) router.push('/basketball/rewards-message')
   })
 
   return (
