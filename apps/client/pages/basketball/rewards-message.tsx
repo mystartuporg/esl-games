@@ -1,41 +1,30 @@
 import React, { useEffect } from 'react'
-import {
-  Controller,
-  SubmitHandler,
-  SubmitErrorHandler,
-  useForm,
-} from 'react-hook-form'
 import { useRouter } from 'next/router'
 import {
-  Box,
-  Button,
-  FormControlLabel,
-  FormHelperText,
+  Card,
+  CardContent,
+  CardMedia,
   Grid,
   Paper,
-  Switch,
   Typography,
 } from '@mui/material'
-import { SportsBasketball } from '@mui/icons-material'
 
-interface IFormInput {
-  accepted?: Boolean
-}
+import CssBaseline from "@mui/material/CssBaseline";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
 
-export default function TermsConditions() {
-  const [errorMessage, setErrorMessage] = React.useState('')
-  const {
-    register,
-    formState: { isValid },
-    handleSubmit,
-    control,
-  } = useForm()
-  const router = useRouter()
-  const onSubmit: SubmitHandler<IFormInput> = () =>
-    router.push('/basketball/user-form')
-  const onSubmitError: SubmitErrorHandler<IFormInput> = (errors) => {
-    setErrorMessage('Cannot proceed until terms and conditions are accepted.')
+const themeMain = createTheme({
+  palette: {
+    background: {
+      default: "cadetblue"
+    }
   }
+});
+
+export default function RewardsMessage() {
+  
+  const router = useRouter()
+  const [selectedMerchantName, setSelectedMerchantName] = React.useState('')
+  const [selectedMerchantImg, setSelectedMerchantImg] = React.useState('')
 
   useEffect(() => {
     let accepted = sessionStorage.getItem("accepted")
@@ -45,96 +34,177 @@ export default function TermsConditions() {
     let score = sessionStorage.getItem("score")
     let selectedMerchant = sessionStorage.getItem('selectedMerchant')
 
-    if (accepted === null)
-      router.push('/basketball/terms-conditions')
-    else if ((fullName === null) || (mobileNumber === null) || (emailAddress === null))
+    if ((accepted === null) || (fullName === null) || (mobileNumber === null) || (emailAddress === null))
       router.push('/basketball/user-form')
     else if (score === null)
       router.push('/basketball/play')
+    else if (selectedMerchant === null)
+      router.push('/basketball/rewards-select')
+    else {
+      var selectedGC = gcs.filter(gc => {
+        return gc.id === selectedMerchant
+      })
+      setSelectedMerchantName(selectedGC[0].name)
+      setSelectedMerchantImg(selectedGC[0].img)
+    }
   })
 
   return (
-    <Grid
-      container
-      direction="row"
-      justifyContent="center"
-      alignItems="stretch"
-      style={{
-        height: '100vh',
-        background: 'cadetblue',
-      }}
-    >
+    <ThemeProvider theme={themeMain}>
+      <CssBaseline />
       <Grid
-        item
-        md={8}
-        lg={4}
+        container
+        direction="row"
         justifyContent="center"
-        textAlign="center"
-        style={{ display: 'flex', flexDirection: 'column' }}
+        alignItems="stretch"
+        style={{
+          height: '100vh',
+          background: 'cadetblue',
+        }}
       >
-        <img
-          alt="basketball-hoop"
-          src="/assets/images/basketball-hoop.png"
-          style={{
-            display: 'flex',
-            maxWidth: 360,
-            maxHeight: 341,
-            position: 'fixed',
-            top: '3%',
-            left: '50%',
-            marginLeft: -180,
-          }}
-        />
-
-        <Paper
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            padding: '200px 40px 20px',
-            height: '80%',
-            margin: 'auto 0px 40px',
-          }}
+        <Grid
+          item
+          xs={11}
+          md={8}
+          lg={4}
+          justifyContent="center"
+          textAlign="center"
+          style={{ display: 'flex', flexDirection: 'column' }}
         >
-          <Typography
-            variant="h2"
-            gutterBottom
-            align="center"
-            style={{ marginTop: 40, color: '#003865' }}
-          >
-            Congratulations
-          </Typography>
-
-          <Typography
-            variant="h4"
-            gutterBottom
-            align="center"
-            style={{ color: '#003865' }}
-          >
-            You won
-          </Typography>
-
-          <img
-            alt="congratulations"
-            src="https://media.karousell.com/media/photos/products/2021/12/5/giftaway_universal_plus_p1000__1638701916_a3892524_progressive.jpg"
+          <Paper
             style={{
               display: 'flex',
-              maxWidth: 200,
-              maxHeight: 200,
-              alignSelf: 'center',
+              flexDirection: 'column',
+              padding: 20,
+              margin: '20px 0px 20px',
             }}
-          />
-
-          <Button
-            variant="contained"
-            onClick={() => router.push('/basketball/terms-conditions')}
-            startIcon={<SportsBasketball />}
-            endIcon={<SportsBasketball />}
-            style={{ margin: 'auto 0 10px', background: '#3CCF4E' }}
           >
-            Thank you for playing!
-          </Button>
-        </Paper>
+            <img
+              alt="basketball-hoop"
+              src="/assets/images/basketball-hoop.png"
+              style={{
+                display: 'flex',
+                width: '100%',
+              }}
+            />
+            <Typography
+              variant="h4"
+              gutterBottom
+              align="center"
+              style={{ marginTop: 40, color: '#003865' }}
+            >
+              Congratulations!
+            </Typography>
+            <Typography
+              variant="h5"
+              gutterBottom
+              align="center"
+              style={{ color: '#003865' }}
+            >
+              You won
+            </Typography>
+            <Card
+              raised
+              style={{
+                height: '100%',
+                position: 'relative',
+                cursor: 'pointer',
+                padding: 10,
+              }}
+            >
+              <Grid container alignItems="center">
+                <Grid item xs={6}>
+                  <CardContent>
+                    <Typography
+                      variant="h6"
+                      style={{ wordBreak: 'break-word' }}
+                    >
+                      Php 100 {selectedMerchantName} GC
+                    </Typography>
+                  </CardContent>
+                </Grid>
+                <Grid item xs={6}>
+                  <CardMedia
+                    component="img"
+                    height="100"
+                    image={selectedMerchantImg}
+                    alt={selectedMerchantName}
+                    title={selectedMerchantName}
+                    style={{ objectFit: 'contain' }}
+                  />
+                </Grid>
+              </Grid>
+            </Card>
+            <Typography
+              variant="h6"
+              gutterBottom
+              align="left"
+              style={{ marginTop: 20, marginLeft: 40, color: '#003865' }}
+            >
+              Voucher Code: ...
+            </Typography>
+            <Typography
+              variant="h6"
+              gutterBottom
+              align="left"
+              style={{ marginLeft: 40, color: '#003865' }}
+            >
+              Reference No: ...
+            </Typography>
+            <Typography
+              variant="body2"
+              gutterBottom
+              align="justify"
+              style={{ margin: '20px 0 10px', color: '#003865' }}
+            >
+              We will send you the instructions on how to receive your reward via SMS or you can click <a style={{ color: "blue", textDecoration: "underline" }} href="#">here</a>.
+            </Typography>
+          </Paper>
+        </Grid>
       </Grid>
-    </Grid>
+    </ThemeProvider>
   )
 }
+
+const gcs = [
+  {
+    img: 'https://1000logos.net/wp-content/uploads/2021/05/Jollibee-logo-500x281.png',
+    name: 'Jollibee',
+    id: '1',
+  },
+  // {
+  //   img: 'https://1000logos.net/wp-content/uploads/2017/03/McDonalds-logo-500x281.png',
+  //   name: 'McDonalds',
+  //   id: '2',
+  // },
+  // {
+  //   img: 'https://1000logos.net/wp-content/uploads/2016/12/Starbucks-Logo-500x417.png',
+  //   name: 'Starbucks',
+  //   id: '3',
+  // },
+  // {
+  //   img: 'https://1000logos.net/wp-content/uploads/2017/03/Kfc_logo-500x281.png',
+  //   name: 'KFC',
+  //   id: '4',
+  // },
+  // {
+  //   img: 'https://1000logos.net/wp-content/uploads/2017/08/Dunkin-Donuts-Logo-500x209.png',
+  //   name: "Dunkin'",
+  //   id: '5',
+  // },
+  {
+    img: 'https://1000logos.net/wp-content/uploads/2022/08/Grab-Logo-500x281.png',
+    name: "Grab",
+    id: '6'
+  },
+  {
+    img: 'https://1000logos.net/wp-content/uploads/2022/01/Lazada-Logo-500x281.jpg',
+    name: "Lazada",
+    id: '7'
+  },
+  {
+    img: 'https://1000logos.net/wp-content/uploads/2021/02/Shopee-logo-500x328.jpg',
+    name: "Shopee",
+    id: '8'
+  }
+]
