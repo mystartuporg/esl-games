@@ -47,6 +47,9 @@ export default function UserForm() {
   const onSubmit: SubmitHandler<IFormInput> = (data) => {
     
     if (data !== undefined) {
+      sessionStorage.setItem("accepted", data.accepted ? "true" : "false")
+      sessionStorage.setItem("brand_newsletter", data.brand_newsletter ? "true" : "false")
+      sessionStorage.setItem("ulp_newsletter", data.ulp_newsletter ? "true" : "false")
       sessionStorage.setItem("fullName", data.fullName)
       sessionStorage.setItem("mobileNumber", data.mobileNumber)
       sessionStorage.setItem("emailAddress", data.emailAddress !== undefined ? data.emailAddress : "N/A")    
