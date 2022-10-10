@@ -36,7 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.userInformation = void 0;
+exports.userTransaction = void 0;
 var mysql = require("serverless-mysql")({
     config: {
         host: process.env.ENDPOINT,
@@ -46,25 +46,39 @@ var mysql = require("serverless-mysql")({
     },
     library: require("mysql2")
 });
-var userInformation = function (event) { return __awaiter(void 0, void 0, void 0, function () {
-    var body;
+var userTransaction = function (event) { return __awaiter(void 0, void 0, void 0, function () {
+    var body, currentDate, tomorrow, today, year, month, day, refNumDate, userCount, refNumID, refNum;
     var _a;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
                 body = JSON.parse((_a = event.body) !== null && _a !== void 0 ? _a : "");
-                return [4 /*yield*/, mysql.query('INSERT INTO users (name, mobile, email, newsletter_brand, newsletter_ulp) VALUES (?, ?, ?, ?, ?)', [body.fullName, body.mobileNumber, body.emailAddress, body.brand_Newsletter, body.ulp_Newsletter])];
+                currentDate = new Date();
+                tomorrow = new Date();
+                tomorrow.setDate(currentDate.getDate() + 1);
+                tomorrow.setHours(0, 0, 0, 0);
+                today = new Date(currentDate).setHours(0, 0, 0, 0);
+                year = currentDate.getFullYear();
+                month = currentDate.getMonth() + 1;
+                day = currentDate.getDate();
+                refNumDate = year.toString() + month.toString().padStart(2, '0') + day.toString();
+                return [4 /*yield*/, mysql.query('SELECT COUNT(id) + 1 as count FROM transactions WHERE date BETWEEN ? and ?', [today, tomorrow])];
             case 1:
+                userCount = _b.sent();
+                refNumID = userCount[0].count.toString().padStart(3, '0');
+                refNum = refNumDate + '-' + refNumID;
+                return [4 /*yield*/, mysql.query('INSERT INTO transactions (reference_no, user_id, reward_id, date) VALUES (?, ?, ?, ?)', [refNum, body.user_id, body.reward_id, currentDate])];
+            case 2:
                 _b.sent();
                 return [4 /*yield*/, mysql.end()];
-            case 2:
+            case 3:
                 _b.sent();
                 return [2 /*return*/, {
                         statusCode: 200,
-                        body: JSON.stringify({ message: 'Insert successful' })
+                        body: JSON.stringify({ referenceNumber: refNum })
                     }];
         }
     });
 }); };
-exports.userInformation = userInformation;
-//# sourceMappingURL=userInformation.js.map
+exports.userTransaction = userTransaction;
+//# sourceMappingURL=userTransaction.js.map

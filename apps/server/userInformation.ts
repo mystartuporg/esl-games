@@ -1,6 +1,5 @@
 import { APIGatewayProxyHandler } from "aws-lambda";
 import { ServerlessMysql } from "serverless-mysql";
-import { v4 as uuidv4 } from 'uuid';
 
 const mysql: ServerlessMysql = require("serverless-mysql")({
     config: {
@@ -22,10 +21,11 @@ interface UserInfo {
 
 export const userInformation: APIGatewayProxyHandler = async (event) => {
     const body = JSON.parse(event.body ?? "") as UserInfo
-
-    var useruuid = uuidv4()
     
-    await mysql.query('INSERT INTO users (id, name, mobile, email, newsletter_brand, newsletter_ulp) VALUES (?, ?, ?, ?, ?, ?)', [useruuid, body.fullName, body.mobileNumber, body.emailAddress, body.brand_Newsletter, body.ulp_Newsletter])
+    await mysql.query(
+        'INSERT INTO users (name, mobile, email, newsletter_brand, newsletter_ulp) VALUES (?, ?, ?, ?, ?)',
+        [body.fullName, body.mobileNumber, body.emailAddress, body.brand_Newsletter, body.ulp_Newsletter]
+    )
 
     await mysql.end()
 
