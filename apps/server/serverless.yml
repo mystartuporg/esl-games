@@ -57,6 +57,9 @@ provider:
 #    - '!exclude-me-dir/**'
 #    - include-me.js
 #    - include-me-dir/**
+plugin:
+  - serverless-offline
+  - serverless-plugin-typescript
 
 functions:
   hello:
