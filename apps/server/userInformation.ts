@@ -21,24 +21,28 @@ interface UserInfo {
 
 export const userInformation: APIGatewayProxyHandler = async (event) => {
     try {
-        var body = JSON.parse(event.body ?? "") as UserInfo
+        const body = JSON.parse(event.body ?? "") as UserInfo
+
+        await mysql.query(
+          'INSERT INTO users (name, mobile, email, newsletter_brand, newsletter_ulp) VALUES (?, ?, ?, ?, ?)',
+          [body.fullName, body.mobileNumber, body.emailAddress, body.brand_Newsletter, body.ulp_Newsletter]
+        )
+
+        await mysql.end()
+
+        return {
+            statusCode: 200,
+            body: JSON.stringify({message: 'Insert successful'})
+        }
     }
-    catch{
+    catch (error) {
         return {
             statusCode: 500,
-            body: JSON.stringify({message: 'Internal Server Error'})
+            body: JSON.stringify({message: error})
         }
     }
     
-    await mysql.query(
-        'INSERT INTO users (name, mobile, email, newsletter_brand, newsletter_ulp) VALUES (?, ?, ?, ?, ?)',
-        [body.fullName, body.mobileNumber, body.emailAddress, body.brand_Newsletter, body.ulp_Newsletter]
-    )
 
-    await mysql.end()
 
-    return {
-        statusCode: 200,
-        body: JSON.stringify({message: 'Insert successful'})
-    }
+
 }
