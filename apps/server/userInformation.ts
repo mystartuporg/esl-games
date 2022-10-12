@@ -20,7 +20,15 @@ interface UserInfo {
 }
 
 export const userInformation: APIGatewayProxyHandler = async (event) => {
-    const body = JSON.parse(event.body ?? "") as UserInfo
+    try {
+        var body = JSON.parse(event.body ?? "") as UserInfo
+    }
+    catch{
+        return {
+            statusCode: 500,
+            body: JSON.stringify({message: 'Internal Server Error'})
+        }
+    }
     
     await mysql.query(
         'INSERT INTO users (name, mobile, email, newsletter_brand, newsletter_ulp) VALUES (?, ?, ?, ?, ?)',
