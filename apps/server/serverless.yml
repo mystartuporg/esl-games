@@ -57,10 +57,26 @@ provider:
 #    - '!exclude-me-dir/**'
 #    - include-me.js
 #    - include-me-dir/**
+plugins:
+  - serverless-offline
+  - serverless-plugin-typescript
+  - serverless-dotenv-plugin
 
 functions:
   hello:
     handler: handler.hello
+  userInformation:
+    handler: userInformation.userInformation
+    events:
+      - http:
+          path: userInfo
+          method: post
+  userTransaction:
+    handler: userTransaction.userTransaction
+    events:
+      - http:
+          path: userTran
+          method: post
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events
 #    Check the event documentation for details
