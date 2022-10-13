@@ -11,24 +11,28 @@ const mysql: ServerlessMysql = require("serverless-mysql")({
     library: require( "mysql2" )
 })
 
-interface GetRewards {
-    score: number
-    reward_type: string
+interface Result {
+    id: number
+    type: string
+    code: string
 }
 
 export const getRewards: APIGatewayProxyHandler = async (event) => {
     try {
-        const body = JSON.parse(event.body ?? "") as GetRewards
+        const body = event.queryStringParameters
 
-        if (body.score >= 5) {
+        if (body == undefined) {
+            throw 'Body is undefined'
+        }
+        if (body && body.score && parseInt(body.score) >= 5) {
 
-            let reward = await mysql.query('SELECT id, code FROM rewards WHERE type = ?',[body.reward_type])
+            let reward: Result[] = await mysql.query('SELECT * FROM rewards WHERE type = ?', [body.reward_type])
 
             await mysql.end()
 
             return {
                 statusCode: 200,
-                body: JSON.stringify({message: reward})
+                body: JSON.stringify({reward_id: reward[0].id, reward_code: reward[0].code})
             }
         }
         else {
