@@ -23,7 +23,7 @@ export const getRewards: APIGatewayProxyHandler = async (event) => {
             throw 'Reward Type is undefined'
         }
         let result: Result[] = await mysql.query(
-            'SELECT * FROM rewards WHERE type = ? AND id NOT IN (SELECT reward_id FROM transactions) AND id IN (SELECT MIN(id) FROM rewards GROUP BY type)',
+            'SELECT * FROM rewards WHERE type = ? AND id NOT IN (SELECT reward_id FROM transactions) AND id IN (SELECT id FROM rewards GROUP BY type)',
             [body.reward_type]
         )
         return{
