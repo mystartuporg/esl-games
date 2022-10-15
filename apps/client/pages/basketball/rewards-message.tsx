@@ -25,6 +25,8 @@ export default function RewardsMessage() {
   const router = useRouter()
   const [selectedMerchantName, setSelectedMerchantName] = React.useState('')
   const [selectedMerchantImg, setSelectedMerchantImg] = React.useState('')
+  const [voucherCode, setVoucherCode] = React.useState('')
+  const [referenceNumber, setReferenceNumber] = React.useState('')
 
   useEffect(() => {
     let accepted = sessionStorage.getItem("accepted")
@@ -33,6 +35,10 @@ export default function RewardsMessage() {
     let emailAddress = sessionStorage.getItem("emailAddress")
     let score = sessionStorage.getItem("score")
     let selectedMerchant = sessionStorage.getItem('selectedMerchant')
+    let selectedMerchantName = sessionStorage.getItem('selectedMerchantName')
+    let selectedMerchantImg = sessionStorage.getItem('selectedMerchantImg')
+    let voucherCode = sessionStorage.getItem('voucherCode')
+    let referenceNumber = sessionStorage.getItem('referenceNumber')
 
     if ((accepted === null) || (fullName === null) || (mobileNumber === null) || (emailAddress === null))
       router.push('/basketball/user-form')
@@ -44,10 +50,12 @@ export default function RewardsMessage() {
       var selectedGC = gcs.filter(gc => {
         return gc.id === selectedMerchant
       })
-      setSelectedMerchantName(selectedGC[0].name)
-      setSelectedMerchantImg(selectedGC[0].img)
+      setSelectedMerchantName(selectedMerchantName ? selectedMerchantName : selectedGC[0].name)
+      setSelectedMerchantImg(selectedMerchantImg ? selectedMerchantImg : selectedGC[0].img)
+      setVoucherCode(voucherCode ? voucherCode : '')
+      setReferenceNumber(referenceNumber ? referenceNumber : '')
     }
-  })
+  }, [])
 
   return (
     <ThemeProvider theme={themeMain}>
@@ -141,7 +149,7 @@ export default function RewardsMessage() {
               align="left"
               style={{ marginTop: 20, marginLeft: 40, color: '#003865' }}
             >
-              Voucher Code: ...
+              Voucher Code: {voucherCode}
             </Typography>
             <Typography
               variant="h6"
@@ -149,7 +157,7 @@ export default function RewardsMessage() {
               align="left"
               style={{ marginLeft: 40, color: '#003865' }}
             >
-              Reference No: ...
+              Reference No: {referenceNumber}
             </Typography>
             <Typography
               variant="body2"
