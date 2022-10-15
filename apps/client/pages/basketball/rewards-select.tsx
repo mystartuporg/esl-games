@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import router from 'next/router'
+import axios from 'axios'
 import { CheckCircleOutline } from '@mui/icons-material'
 import {
   Box,
@@ -26,6 +27,7 @@ const themeMain = createTheme({
 
 export default function RewardsSelect() {
   const [selectedMerchant, setSelectedMerchant] = React.useState('')
+  const [merchantsList, setMerchantsList] = React.useState('')
 
   const handleSubmit = () => {
     if (selectedMerchant) {
@@ -36,12 +38,12 @@ export default function RewardsSelect() {
 
   useEffect(() => {
     let accepted = sessionStorage.getItem('accepted')
+    let userId = sessionStorage.getItem('userId')
     let fullName = sessionStorage.getItem('fullName')
     let mobileNumber = sessionStorage.getItem('mobileNumber')
     let emailAddress = sessionStorage.getItem('emailAddress')
     let score = sessionStorage.getItem('score')
     let selectedMerchant = sessionStorage.getItem('selectedMerchant')
-
     if(
       accepted === null ||
       fullName === null ||
@@ -51,7 +53,20 @@ export default function RewardsSelect() {
       router.push('/basketball/user-form')
     else if (score === null) router.push('/basketball/play')
     else if (selectedMerchant !== null) router.push('/basketball/rewards-message')
-  })
+
+    try {
+      axios({
+        method: 'get',
+        url: process.env.NEXT_PUBLIC_GET_REWARDS_API_URL
+      }).then( result => {
+        console.log(result.data)
+        setMerchantsList(result.data)
+      });
+    }
+    catch (e) {
+      console.log(e);
+    }
+  }, [])
 
   return (
     <ThemeProvider theme={themeMain}>
