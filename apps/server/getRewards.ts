@@ -19,22 +19,30 @@ interface Result {
 export const getRewards: APIGatewayProxyHandler = async (event) => {
     try {
         const body = event.queryStringParameters
-        if (body == undefined) {
-            throw 'Reward Type is undefined'
-        }
         let result: Result[] = await mysql.query(
-            'SELECT * FROM rewards WHERE type = ? AND id NOT IN (SELECT reward_id FROM transactions) AND id IN (SELECT id FROM rewards GROUP BY type)',
-            [body.reward_type]
+            `SELECT 
+                R.id,
+                R.type,
+                R.code
+            FROM
+                rewards AS R
+                    LEFT JOIN
+                transactions AS T ON R.id = T.reward_id
+            WHERE
+                T.reward_id IS NULL
+            GROUP BY
+                R.type
+            ;`
         )
         return{
             statusCode: 200,
-            body: JSON.stringify({reward_id: result[0].id, reward_code: result[0].code})
+            body: JSON.stringify({result})
         }
     }
     catch (error) {
         return {
-                    statusCode: 500,
-                    body: JSON.stringify({message: error})
-                }
+            statusCode: 500,
+            body: JSON.stringify({message: error})
+        }
     }
 }
