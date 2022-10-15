@@ -1,12 +1,14 @@
 import React, { useEffect } from 'react'
 import { useForm, Controller, SubmitHandler } from 'react-hook-form'
 import { useRouter } from 'next/router'
+import axios from 'axios'
 import { Button, Checkbox, FormControlLabel, FormHelperText, Grid, Paper, TextField, Typography } from '@mui/material'
 import { MuiTelInput, matchIsValidTel } from 'mui-tel-input'
 import { SportsBasketball } from '@mui/icons-material'
 
 import CssBaseline from "@mui/material/CssBaseline";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
+import { fdatasync } from 'fs'
 
 interface IFormInput {
   fullName: string
@@ -47,14 +49,42 @@ export default function UserForm() {
   const onSubmit: SubmitHandler<IFormInput> = (data) => {
     
     if (data !== undefined) {
-      sessionStorage.setItem("accepted", data.accepted ? "true" : "false")
-      sessionStorage.setItem("brand_newsletter", data.brand_newsletter ? "true" : "false")
-      sessionStorage.setItem("ulp_newsletter", data.ulp_newsletter ? "true" : "false")
-      sessionStorage.setItem("fullName", data.fullName)
-      sessionStorage.setItem("mobileNumber", data.mobileNumber)
-      sessionStorage.setItem("emailAddress", data.emailAddress !== undefined ? data.emailAddress : "N/A")    
+      var fullName = data.fullName
+      var mobileNumber = data.mobileNumber
+      var emailAddress = data.emailAddress !== undefined ? data.emailAddress : "N/A"
+      var brandNewsletter = data.brand_newsletter ? true : false
+      var ulpNewsletter =  data.ulp_newsletter ? true : false
+      
+      try {
+        axios({
+          method: 'post',
+          url: process.env.NEXT_PUBLIC_USER_INFO_API_URL, // change to env
+          data: {
+            fullName: fullName,
+            mobileNumber: mobileNumber,
+            emailAddress: emailAddress,
+            brand_Newsletter: brandNewsletter,
+            ulp_Newsletter:  ulpNewsletter
+          }
+        }).then( result => {
+          console.log(result.data)
+          sessionStorage.setItem("accepted", data.accepted ? "true" : "false")
+          sessionStorage.setItem("brand_newsletter", data.brand_newsletter ? "true" : "false")
+          sessionStorage.setItem("ulp_newsletter", data.ulp_newsletter ? "true" : "false")
+          sessionStorage.setItem("fullName", fullName)
+          sessionStorage.setItem("mobileNumber", mobileNumber)
+          sessionStorage.setItem("emailAddress", emailAddress)
+          sessionStorage.setItem("userId", result.data.id)
+        }).then( () => {
+          router.push('/basketball/play')
+        });
+        
+      }
+  
+      catch (e) {
+        console.log(e);
+      }
     }
-    router.push('/basketball/play')
   }
 
   useEffect(() => {
