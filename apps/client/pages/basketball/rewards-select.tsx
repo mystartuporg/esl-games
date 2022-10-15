@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react'
 import router from 'next/router'
 import axios from 'axios'
-import { CheckCircleOutline } from '@mui/icons-material'
+import { forEach } from 'lodash'
+import { CheckCircleOutline, RoomPreferences, Rowing } from '@mui/icons-material'
 import {
   Box,
   Button,
@@ -25,9 +26,16 @@ const themeMain = createTheme({
   }
 });
 
+interface MerchantType {
+  id: string
+  type: string
+  code: string
+  img?: string
+}
+
 export default function RewardsSelect() {
   const [selectedMerchant, setSelectedMerchant] = React.useState('')
-  const [merchantsList, setMerchantsList] = React.useState('')
+  const [merchantsList, setMerchantsList] = React.useState<MerchantType[]>(gcs)
 
   const handleSubmit = () => {
     if (selectedMerchant) {
@@ -59,8 +67,15 @@ export default function RewardsSelect() {
         method: 'get',
         url: process.env.NEXT_PUBLIC_GET_REWARDS_API_URL
       }).then( result => {
-        console.log(result.data)
-        setMerchantsList(result.data)
+        return forEach(result.data.result, (row: MerchantType) => {
+          let matchResult = gcs.filter((gc) => {
+            return gc.type == row.type
+          })
+          row.img = matchResult[0].img
+        })
+      }).then( result => {
+        console.log(result)
+        setMerchantsList(result)
       });
     }
     catch (e) {
@@ -112,17 +127,17 @@ export default function RewardsSelect() {
             </Typography>
             <Box style={{ overflowY: 'auto', height: '40vh', padding: 10 }}>
               <Grid container spacing={1} alignItems="stretch">
-                {gcs.map((gc) => (
-                  <Grid item xs={12} key={gc.id}>
+                {merchantsList.map((merchant: MerchantType) => (
+                  <Grid item xs={12} key={merchant.id}>
                     <Card
-                      raised={selectedMerchant === gc.id}
+                      raised={selectedMerchant === merchant.id}
                       style={{
                         height: '100%',
                         position: 'relative',
                         cursor: 'pointer',
                         padding: 10,
                       }}
-                      onClick={() => setSelectedMerchant(gc.id)}
+                      onClick={() => setSelectedMerchant(merchant.id)}
                     >
                       <Grid container alignItems="center">
                         <Grid item xs={6}>
@@ -131,9 +146,9 @@ export default function RewardsSelect() {
                               variant="h6"
                               style={{ wordBreak: 'break-word' }}
                             >
-                              {gc.name}
+                              {merchant.type}
                             </Typography>
-                            {selectedMerchant === gc.id && (
+                            {selectedMerchant === merchant.id && (
                               <CheckCircleOutline
                                 color="primary"
                                 style={{
@@ -150,9 +165,9 @@ export default function RewardsSelect() {
                           <CardMedia
                             component="img"
                             height="100"
-                            image={gc.img}
-                            alt={gc.name}
-                            title={gc.name}
+                            image={merchant.img}
+                            alt={merchant.type}
+                            title={merchant.type}
                             style={{ objectFit: 'contain' }}
                           />
                         </Grid>
@@ -180,42 +195,62 @@ export default function RewardsSelect() {
 const gcs = [
   {
     img: 'https://1000logos.net/wp-content/uploads/2021/05/Jollibee-logo-500x281.png',
-    name: 'Jollibee',
+    type: 'Jollibee',
     id: '1',
+    code: ''
   },
-  // {
-  //   img: 'https://1000logos.net/wp-content/uploads/2017/03/McDonalds-logo-500x281.png',
-  //   name: 'McDonalds',
-  //   id: '2',
-  // },
-  // {
-  //   img: 'https://1000logos.net/wp-content/uploads/2016/12/Starbucks-Logo-500x417.png',
-  //   name: 'Starbucks',
-  //   id: '3',
-  // },
-  // {
-  //   img: 'https://1000logos.net/wp-content/uploads/2017/03/Kfc_logo-500x281.png',
-  //   name: 'KFC',
-  //   id: '4',
-  // },
-  // {
-  //   img: 'https://1000logos.net/wp-content/uploads/2017/08/Dunkin-Donuts-Logo-500x209.png',
-  //   name: "Dunkin'",
-  //   id: '5',
-  // },
+  {
+    img: 'https://1000logos.net/wp-content/uploads/2017/03/McDonalds-logo-500x281.png',
+    type: 'McDonalds',
+    id: '2',
+    code: ''
+  },
+  {
+    img: 'https://1000logos.net/wp-content/uploads/2016/12/Starbucks-Logo-500x417.png',
+    type: 'Starbucks',
+    id: '3',
+    code: ''
+  },
+  {
+    img: 'https://1000logos.net/wp-content/uploads/2017/03/Kfc_logo-500x281.png',
+    type: 'KFC',
+    id: '4',
+    code: ''
+  },
+  {
+    img: 'https://1000logos.net/wp-content/uploads/2017/08/Dunkin-Donuts-Logo-500x209.png',
+    type: "Dunkin'",
+    id: '5',
+    code: ''
+  },
   {
     img: 'https://1000logos.net/wp-content/uploads/2022/08/Grab-Logo-500x281.png',
-    name: "Grab",
-    id: '6'
+    type: "Grab",
+    id: '6',
+    code: ''
   },
   {
     img: 'https://1000logos.net/wp-content/uploads/2022/01/Lazada-Logo-500x281.jpg',
-    name: "Lazada",
-    id: '7'
+    type: "Lazada",
+    id: '7',
+    code: ''
   },
   {
     img: 'https://1000logos.net/wp-content/uploads/2021/02/Shopee-logo-500x328.jpg',
-    name: "Shopee",
-    id: '8'
+    type: "Shopee",
+    id: '8',
+    code: ''
+  },
+  {
+    img: '/assets/images/Maya-Logo-1280x372.png',
+    type: "Maya",
+    id: '9',
+    code: ''
+  },
+  {
+    img: '/assets/images/GCash-Logo-700x618.png',
+    type: "GCash",
+    id: '10',
+    code: ''
   }
 ]
