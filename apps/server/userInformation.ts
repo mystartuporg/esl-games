@@ -19,11 +19,15 @@ interface UserInfo {
     ulp_Newsletter: boolean
 }
 
+interface ResultType {
+    insertId: number
+}
+
 export const userInformation: APIGatewayProxyHandler = async (event) => {
     try {
         const body = JSON.parse(event.body ?? "") as UserInfo
 
-        await mysql.query(
+        var result:ResultType = await mysql.query(
           'INSERT INTO users (name, mobile, email, newsletter_brand, newsletter_ulp) VALUES (?, ?, ?, ?, ?)',
           [body.fullName, body.mobileNumber, body.emailAddress, body.brand_Newsletter, body.ulp_Newsletter]
         )
@@ -32,13 +36,13 @@ export const userInformation: APIGatewayProxyHandler = async (event) => {
 
         return {
             statusCode: 200,
-            body: JSON.stringify({message: 'Insert successful'})
+            body: JSON.stringify({ id: result.insertId })
         }
     }
     catch (error) {
         return {
             statusCode: 500,
-            body: JSON.stringify({message: error})
+            body: JSON.stringify({ message: error })
         }
     }
     
