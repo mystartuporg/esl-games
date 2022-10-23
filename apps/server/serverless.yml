@@ -23,6 +23,7 @@ frameworkVersion: '3'
 provider:
   name: aws
   runtime: nodejs12.x
+  region: ap-southeast-1
 
 # you can overwrite defaults here
 #  stage: dev
@@ -51,6 +52,24 @@ provider:
 #    variable1: value1
 
 # you can add packaging information here
+package:
+  patterns:
+    - '../../node_modules/serverless-mysql/**'
+    - '../../node_modules/mysql/**'
+    - '../../node_modules/mysql2/**'
+    - '../../node_modules/denque/**'
+    - '../../node_modules/generate-function/**'
+    - '../../node_modules/iconv-lite/**'
+    - '../../node_modules/long/**'
+    - '../../node_modules/lru-cache/**'
+    - '../../node_modules/named-placeholders/**'
+    - '../../node_modules/seq-queue/**'
+    - '../../node_modules/sqlstring/**'
+    - '../../node_modules/is-property/**'
+    - '../../node_modules/pseudomap/**'
+    - '../../node_modules/yallist/**'
+    - '../../node_modules/safer-buffer/**'
+
 #package:
 #  patterns:
 #    - '!exclude-me.js'
@@ -61,6 +80,20 @@ plugins:
   - serverless-offline
   - serverless-plugin-typescript
   - serverless-dotenv-plugin
+  - serverless-domain-manager
+
+custom:
+  stage: ${opt:stage, self:provider.stage}
+  domains:
+    prod: esl-games-api.retsol.ph
+    staging: staging-esl-games-api.retsol.ph
+    dev: dev-esl-games-api.retsol.ph
+  customDomain:
+    domainName: ${self:custom.domains.${self:custom.stage}}
+    stage: ${self:custom.stage}
+    certificateName: '*.retsol.ph'
+    createRoute53Record: true
+    endpointType: regional
 
 functions:
   hello:
@@ -71,18 +104,24 @@ functions:
       - http:
           path: userInfo
           method: post
+          cors:
+            origin: '*'
   userTransaction:
     handler: userTransaction.userTransaction
     events:
       - http:
           path: userTran
           method: post
+          cors:
+            origin: '*'
   getRewards:
     handler: getRewards.getRewards
     events:
       - http:
           path: rewards
           method: get
+          cors:
+            origin: '*'
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events
 #    Check the event documentation for details
