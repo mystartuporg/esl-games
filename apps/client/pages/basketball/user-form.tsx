@@ -58,7 +58,8 @@ export default function UserForm() {
       try {
         axios({
           method: 'post',
-          url: process.env.NEXT_PUBLIC_USER_INFO_API_URL, // change to env
+          url: process.env.NEXT_PUBLIC_USER_INFO_API_URL,
+          headers: { 'x-api-key': process.env.NEXT_PUBLIC_API_KEY },
           data: {
             fullName: fullName,
             mobileNumber: mobileNumber,
