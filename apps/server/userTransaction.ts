@@ -25,7 +25,9 @@ export const userTransaction: APIGatewayProxyHandler = async (event) => {
         let tomorrow = new Date()
         tomorrow.setDate(currentDate.getDate()+1)
         tomorrow.setHours(0, 0, 0, 0)
-        let today = new Date(currentDate).setHours(0, 0, 0, 0)
+        let today = new Date(currentDate)
+        today.setHours(0, 0, 0, 0)
+
         let year = currentDate.getFullYear()
         let month = currentDate.getMonth() + 1
         let day = currentDate.getDate()
