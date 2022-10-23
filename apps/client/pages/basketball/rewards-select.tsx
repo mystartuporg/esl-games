@@ -49,6 +49,7 @@ export default function RewardsSelect() {
         axios({
           method: 'post',
           url: process.env.NEXT_PUBLIC_RECORD_TRANSACTION_API_URL,
+          headers: { 'x-api-key': process.env.NEXT_PUBLIC_API_KEY },
           data: {
             reward_id: selectedMerchant,
             user_id: userId
@@ -90,7 +91,8 @@ export default function RewardsSelect() {
     try {
       axios({
         method: 'get',
-        url: process.env.NEXT_PUBLIC_GET_REWARDS_API_URL
+        url: process.env.NEXT_PUBLIC_GET_REWARDS_API_URL,
+        headers: { 'x-api-key': process.env.NEXT_PUBLIC_API_KEY }
       }).then( result => {
         return forEach(result.data.result, (row: MerchantType) => {
           let matchResult = gcs.filter((gc) => {

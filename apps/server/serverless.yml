@@ -24,6 +24,11 @@ provider:
   name: aws
   runtime: nodejs12.x
   region: ap-southeast-1
+  apiGateway:
+    apiKeys:
+      - name: esl-games-api-key             #Replace with API Key Name on deployment
+        value: ${process.env.API_KEY}       #Replace with API Key Value on deployment
+        description: Key for ESL Games API  #Replace with API Key Description on deployment
 
 # you can overwrite defaults here
 #  stage: dev
@@ -106,6 +111,7 @@ functions:
           method: post
           cors:
             origin: '*'
+          private: true
   userTransaction:
     handler: userTransaction.userTransaction
     events:
@@ -114,6 +120,7 @@ functions:
           method: post
           cors:
             origin: '*'
+          private: true
   getRewards:
     handler: getRewards.getRewards
     events:
@@ -122,6 +129,7 @@ functions:
           method: get
           cors:
             origin: '*'
+          private: true
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events
 #    Check the event documentation for details
