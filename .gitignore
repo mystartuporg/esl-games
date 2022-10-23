@@ -40,3 +40,4 @@ package-lock.json
 
 # environment variables
 apps/client/.env
+apps/node_modules
