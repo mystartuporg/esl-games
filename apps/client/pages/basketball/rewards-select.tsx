@@ -38,15 +38,40 @@ export default function RewardsSelect() {
   const [merchantsList, setMerchantsList] = React.useState<MerchantType[]>(gcs)
 
   const handleSubmit = () => {
+    let userId = sessionStorage.getItem('userId')
+
     if (selectedMerchant) {
-      sessionStorage.setItem('selectedMerchant', selectedMerchant)
-      router.push('/basketball/rewards-message')
+      let matchResult = merchantsList.filter((merchant) => {
+        return merchant.id == selectedMerchant
+      })
+      
+      try {
+        axios({
+          method: 'post',
+          url: process.env.NEXT_PUBLIC_RECORD_TRANSACTION_API_URL,
+          data: {
+            reward_id: selectedMerchant,
+            user_id: userId
+          }
+        }).then( result => {          
+          sessionStorage.setItem('selectedMerchant', selectedMerchant)
+          sessionStorage.setItem('selectedMerchantName', matchResult[0].type)
+          sessionStorage.setItem('selectedMerchantImg', matchResult[0].img ? matchResult[0].img : '/assets/images/GCash-Logo-700x618.png' )
+          sessionStorage.setItem('referenceNumber', result.data.referenceNumber)
+          sessionStorage.setItem('voucherCode', matchResult[0].code)
+          
+          router.push('/basketball/rewards-message')
+        });
+
+      }
+      catch (e) {
+        console.log(e);
+      }
     }
   }
 
   useEffect(() => {
     let accepted = sessionStorage.getItem('accepted')
-    let userId = sessionStorage.getItem('userId')
     let fullName = sessionStorage.getItem('fullName')
     let mobileNumber = sessionStorage.getItem('mobileNumber')
     let emailAddress = sessionStorage.getItem('emailAddress')
