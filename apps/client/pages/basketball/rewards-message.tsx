@@ -122,16 +122,6 @@ export default function RewardsMessage() {
             >
               <Grid container alignItems="center">
                 <Grid item xs={6}>
-                  <CardContent>
-                    <Typography
-                      variant="h6"
-                      style={{ wordBreak: 'break-word' }}
-                    >
-                      Php 100 {selectedMerchantName} GC
-                    </Typography>
-                  </CardContent>
-                </Grid>
-                <Grid item xs={6}>
                   <CardMedia
                     component="img"
                     height="100"
@@ -140,6 +130,16 @@ export default function RewardsMessage() {
                     title={selectedMerchantName}
                     style={{ objectFit: 'contain' }}
                   />
+                </Grid>
+                <Grid item xs={6}>
+                  <CardContent>
+                    <Typography
+                      variant="h6"
+                      style={{ wordBreak: 'break-word' }}
+                    >
+                      Php 100 {selectedMerchantName} GC
+                    </Typography>
+                  </CardContent>
                 </Grid>
               </Grid>
             </Card>

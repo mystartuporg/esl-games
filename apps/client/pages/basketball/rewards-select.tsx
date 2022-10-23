@@ -166,6 +166,16 @@ export default function RewardsSelect() {
                     >
                       <Grid container alignItems="center">
                         <Grid item xs={6}>
+                          <CardMedia
+                            component="img"
+                            height="100"
+                            image={merchant.img}
+                            alt={merchant.type}
+                            title={merchant.type}
+                            style={{ objectFit: 'contain' }}
+                          />
+                        </Grid>
+                        <Grid item xs={6}>
                           <CardContent>
                             <Typography
                               variant="h6"
@@ -185,16 +195,6 @@ export default function RewardsSelect() {
                               />
                             )}
                           </CardContent>
-                        </Grid>
-                        <Grid item xs={6}>
-                          <CardMedia
-                            component="img"
-                            height="100"
-                            image={merchant.img}
-                            alt={merchant.type}
-                            title={merchant.type}
-                            style={{ objectFit: 'contain' }}
-                          />
                         </Grid>
                       </Grid>
                     </Card>
