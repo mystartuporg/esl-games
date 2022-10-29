@@ -50,7 +50,7 @@ export default function UserForm() {
     
     if (data !== undefined) {
       var fullName = data.fullName
-      var mobileNumber = data.mobileNumber
+      var mobileNumber = data.mobileNumber.replace(/\s/g, '')
       var emailAddress = data.emailAddress !== undefined ? data.emailAddress : "N/A"
       var brandNewsletter = data.brand_newsletter ? true : false
       var ulpNewsletter =  data.ulp_newsletter ? true : false
