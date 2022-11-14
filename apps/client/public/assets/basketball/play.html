@@ -330,16 +330,25 @@
           window.clearInterval(location_interval)
           isDown = false
           end_location = [pointer.x, pointer.y]
-
           if (end_location[1] < start_location[1]) {
-            var slope = [
-              end_location[0] - start_location[0],
-              end_location[1] - start_location[1],
-            ]
-            var x_traj = (gameParams.ballLaunchVelocityX * slope[0]) / slope[1]
+            var angleDegrees =
+              calcAngleDegrees(
+                end_location[0] - start_location[0],
+                (end_location[1] - start_location[1]) * -1
+              ) - 90
+            var x_traj =
+              gameParams.ballLaunchVelocityY * getTanFromDegrees(angleDegrees)
             launch(x_traj)
           }
         }
+      }
+
+      function calcAngleDegrees(x, y) {
+        return (Math.atan2(y, x) * 180) / Math.PI
+      }
+
+      function getTanFromDegrees(degrees) {
+        return Math.tan((degrees * Math.PI) / 180)
       }
 
       function launch(x_traj) {
@@ -426,8 +435,7 @@
         gameParams.firstScoreBallSpawnXPos = getPercent(50, x)
         gameParams.ballSpawnYPos = getPercent(135.06, x)
         gameParams.gravity = getPercent(740.74, x)
-        gameParams.ballLaunchVelocityX = getPercent(567.9, x) * -1
-        gameParams.ballLaunchVelocityY = getPercent(432.1, x) * -1
+        gameParams.ballLaunchVelocityY = getPercent(410, x) * -1
         gameParams.ballSpinRate = getPercent(0.74, x)
         // Code to determine if browser being used is Safari.
         // Safari has issues playing wav files so we disable audio
