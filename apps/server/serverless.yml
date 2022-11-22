@@ -26,9 +26,9 @@ provider:
   region: ap-southeast-1
   apiGateway:
     apiKeys:
-      - name: esl-games-api-key             #Replace with API Key Name on deployment
-        value: ${process.env.API_KEY}       #Replace with API Key Value on deployment
-        description: Key for ESL Games API  #Replace with API Key Description on deployment
+      - name: esl-games-api-key #Replace with API Key Name on deployment
+        value: ${process.env.API_KEY} #Replace with API Key Value on deployment
+        description: Key for ESL Games API #Replace with API Key Description on deployment
 
 # you can overwrite defaults here
 #  stage: dev
@@ -59,6 +59,7 @@ provider:
 # you can add packaging information here
 package:
   patterns:
+    - '../../node_modules/axios/**'
     - '../../node_modules/serverless-mysql/**'
     - '../../node_modules/mysql/**'
     - '../../node_modules/mysql2/**'
