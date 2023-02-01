@@ -9,6 +9,12 @@ const mysql = require('serverless-mysql')({
   library: require('mysql2'),
 })
 
+const SMS_FORMAT = {
+  'GCash': (code, refNum) => `Your eGift code for P100 is ${code}. Please go to http://gft.ph/gcash and request for a top-up. Ref No. ${refNum}`,
+  'GrabFood': (code, refNum) => `Hi Waltermart! Unilever Philippines sent 1 eGift (P100) for GrabFood. Please open https://gft.ph/${code} for more details. Ref No. ${refNum}`,
+  'Unilever': (code, refNum) => `Hi Waltermart! Unilever Philippines sent you a Gift of 1 Creamsilk Hair Treatment product. Ref No. ${refNum}`
+}
+
 export const userInformation = async (event) => {
   try {
     const body = JSON.parse(event.body ?? '')
@@ -79,10 +85,8 @@ export const userTransaction = async (event) => {
     // TODO: add proper types
     const semaphoreData = JSON.stringify({
       apikey: process.env.SEMAPHORE_API_KEY,
-      // @ts-ignore
       number: user[0].mobile,
-      // @ts-ignore
-      message: `Congratulations! Thanks for playing the game! Here's your Php 100 ${reward[0].type} GC. You can redeem it here: https://gft.ph/v3tNtdTrjl. Ref No. ${refNum}`,
+      message: SMS_FORMAT[reward[0].type](reward[0].code, refNum),
       sendername: process.env.SEMAPHORE_SENDER_NAME,
     })
 
