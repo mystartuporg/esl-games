@@ -50,7 +50,7 @@ export default function RewardsMessage() {
       var selectedGC = gcs.filter(gc => {
         return gc.id === selectedMerchant
       })
-      setSelectedMerchantName(selectedMerchantName ? selectedMerchantName : selectedGC[0].name)
+      setSelectedMerchantName(selectedMerchantName ? selectedMerchantName : selectedGC[0].type)
       setSelectedMerchantImg(selectedMerchantImg ? selectedMerchantImg : selectedGC[0].img)
       setVoucherCode(voucherCode ? voucherCode : '')
       setReferenceNumber(referenceNumber ? referenceNumber : '')
@@ -176,43 +176,21 @@ export default function RewardsMessage() {
 
 const gcs = [
   {
-    img: 'https://1000logos.net/wp-content/uploads/2021/05/Jollibee-logo-500x281.png',
-    name: 'Jollibee',
-    id: '1',
+    img: '/assets/images/GCash-Logo-700x618.png',
+    type: "GCash",
+    id: '10',
+    code: ''
   },
-  // {
-  //   img: 'https://1000logos.net/wp-content/uploads/2017/03/McDonalds-logo-500x281.png',
-  //   name: 'McDonalds',
-  //   id: '2',
-  // },
-  // {
-  //   img: 'https://1000logos.net/wp-content/uploads/2016/12/Starbucks-Logo-500x417.png',
-  //   name: 'Starbucks',
-  //   id: '3',
-  // },
-  // {
-  //   img: 'https://1000logos.net/wp-content/uploads/2017/03/Kfc_logo-500x281.png',
-  //   name: 'KFC',
-  //   id: '4',
-  // },
-  // {
-  //   img: 'https://1000logos.net/wp-content/uploads/2017/08/Dunkin-Donuts-Logo-500x209.png',
-  //   name: "Dunkin'",
-  //   id: '5',
-  // },
   {
     img: 'https://1000logos.net/wp-content/uploads/2022/08/Grab-Logo-500x281.png',
-    name: "Grab",
-    id: '6'
+    type: "GrabFood",
+    id: '11',
+    code: ''
   },
   {
-    img: 'https://1000logos.net/wp-content/uploads/2022/01/Lazada-Logo-500x281.jpg',
-    name: "Lazada",
-    id: '7'
-  },
-  {
-    img: 'https://1000logos.net/wp-content/uploads/2021/02/Shopee-logo-500x328.jpg',
-    name: "Shopee",
-    id: '8'
+    img: 'https://1000logos.net/wp-content/uploads/2017/06/Unilever-Logo-768x582.png',
+    type: "Unilever",
+    id: '12',
+    code: ''
   }
 ]
