@@ -279,5 +279,17 @@ const gcs = [
     type: "GCash",
     id: '10',
     code: ''
+  },
+  {
+    img: 'https://1000logos.net/wp-content/uploads/2022/08/Grab-Logo-500x281.png',
+    type: "GrabFood",
+    id: '11',
+    code: ''
+  },
+  {
+    img: 'https://1000logos.net/wp-content/uploads/2017/06/Unilever-Logo-768x582.png',
+    type: "Unilever",
+    id: '12',
+    code: ''
   }
 ]
