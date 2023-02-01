@@ -4,7 +4,7 @@ frameworkVersion: '3'
 
 provider:
   name: aws
-  runtime: nodejs12.x
+  runtime: nodejs16.x
   region: ap-southeast-1
   apiGateway:
     apiKeys:
@@ -12,23 +12,23 @@ provider:
         value: ${process.env.API_KEY}       #Replace with API Key Value on deployment
         description: Key for ESL Games API  #Replace with API Key Description on deployment
 
-package:
-  patterns:
-    - '../../node_modules/serverless-mysql/**'
-    - '../../node_modules/mysql/**'
-    - '../../node_modules/mysql2/**'
-    - '../../node_modules/denque/**'
-    - '../../node_modules/generate-function/**'
-    - '../../node_modules/iconv-lite/**'
-    - '../../node_modules/long/**'
-    - '../../node_modules/lru-cache/**'
-    - '../../node_modules/named-placeholders/**'
-    - '../../node_modules/seq-queue/**'
-    - '../../node_modules/sqlstring/**'
-    - '../../node_modules/is-property/**'
-    - '../../node_modules/pseudomap/**'
-    - '../../node_modules/yallist/**'
-    - '../../node_modules/safer-buffer/**'
+# package:
+#   patterns:
+#     - '../../node_modules/serverless-mysql/**'
+#     - '../../node_modules/mysql/**'
+#     - '../../node_modules/mysql2/**'
+#     - '../../node_modules/denque/**'
+#     - '../../node_modules/generate-function/**'
+#     - '../../node_modules/iconv-lite/**'
+#     - '../../node_modules/long/**'
+#     - '../../node_modules/lru-cache/**'
+#     - '../../node_modules/named-placeholders/**'
+#     - '../../node_modules/seq-queue/**'
+#     - '../../node_modules/sqlstring/**'
+#     - '../../node_modules/is-property/**'
+#     - '../../node_modules/pseudomap/**'
+#     - '../../node_modules/yallist/**'
+#     - '../../node_modules/safer-buffer/**'
 
 functions:
   userInformation:
@@ -60,9 +60,10 @@ functions:
           private: true
 
 plugins:
-  - serverless-offline
-  - serverless-dotenv-plugin
   - serverless-domain-manager
+  - serverless-webpack
+  - serverless-dotenv-plugin
+  - serverless-offline
 
 custom:
   stage: ${opt:stage, self:provider.stage}
@@ -76,3 +77,18 @@ custom:
     certificateName: '*.retsol.ph'
     createRoute53Record: true
     endpointType: regional
+
+  webpack:
+    webpackConfig: 'webpack.config.js'
+    includeModules:
+      nodeModulesRelativeDir: '../../'
+      forceInclude:
+        - mysql2
+        - serverless-mysql
+    packager: 'yarn'
+    packagerOptions:
+      lockFile: '../../yarn.lock'
+      scripts:
+        # - yarn autoclean --init
+        - yarn install
+        # - yarn autoclean --force

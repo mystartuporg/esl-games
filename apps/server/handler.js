@@ -138,6 +138,9 @@ export const getRewards = async (event) => {
                 R.type
             ;`
     )
+
+    await mysql.end()
+
     return {
       statusCode: 200,
       body: JSON.stringify({ result }),
