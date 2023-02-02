@@ -4,11 +4,6 @@ const nextConfig = {
   swcMinify: true,
   redirects: async () => [
     {
-      source: '/assets/basketball/play.html',
-      destination: '/basketball/play',
-      permanent: false,
-    },
-    {
       source: '/',
       destination: '/basketball/user-form',
       permanent: false,
@@ -16,8 +11,8 @@ const nextConfig = {
   ],
   rewrites: async () => [
     {
-      source: '/basketball/play',
-      destination: '/assets/basketball/play.html',
+      source: '/assets/basketball/play.html',
+      destination: '/basketball/play',
     },
   ],
 }

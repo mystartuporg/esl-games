@@ -94,7 +94,7 @@ export default function UserForm() {
     var mobileNumber = sessionStorage.getItem("mobileNumber")
     var score = sessionStorage.getItem("score")
     if ((accepted !== null) && (fullName !== null) && (mobileNumber !== null)) {
-      router.push('/basketball/play')
+      router.push('/assets/basketball/play.html')
     }
     else if (score !== null) {
       router.push('/basketball/rewards-message')
