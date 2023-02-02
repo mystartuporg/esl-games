@@ -2,6 +2,18 @@
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
+  redirects: async () => [
+    {
+      source: '/assets/basketball/play.html',
+      destination: '/basketball/play',
+      permanent: false,
+    },
+    {
+      source: '/',
+      destination: '/basketball/user-form',
+      permanent: false,
+    },
+  ],
   rewrites: async () => [
     {
       source: '/basketball/play',
