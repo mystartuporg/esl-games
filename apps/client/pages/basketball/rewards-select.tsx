@@ -2,7 +2,11 @@ import React, { useEffect } from 'react'
 import router from 'next/router'
 import axios from 'axios'
 import { forEach } from 'lodash'
-import { CheckCircleOutline, RoomPreferences, Rowing } from '@mui/icons-material'
+import {
+  CheckCircleOutline,
+  RoomPreferences,
+  Rowing,
+} from '@mui/icons-material'
 import {
   Box,
   Button,
@@ -15,16 +19,16 @@ import {
   Typography,
 } from '@mui/material'
 
-import CssBaseline from "@mui/material/CssBaseline";
-import { ThemeProvider, createTheme } from "@mui/material/styles";
+import CssBaseline from '@mui/material/CssBaseline'
+import { ThemeProvider, createTheme } from '@mui/material/styles'
 
 const themeMain = createTheme({
   palette: {
     background: {
-      default: "cadetblue"
-    }
-  }
-});
+      default: 'cadetblue',
+    },
+  },
+})
 
 interface MerchantType {
   id: string
@@ -44,7 +48,7 @@ export default function RewardsSelect() {
       let matchResult = merchantsList.filter((merchant) => {
         return merchant.id == selectedMerchant
       })
-      
+
       try {
         axios({
           method: 'post',
@@ -52,21 +56,24 @@ export default function RewardsSelect() {
           headers: { 'x-api-key': process.env.NEXT_PUBLIC_API_KEY },
           data: {
             reward_id: selectedMerchant,
-            user_id: userId
-          }
-        }).then( result => {          
+            user_id: userId,
+          },
+        }).then((result) => {
           sessionStorage.setItem('selectedMerchant', selectedMerchant)
           sessionStorage.setItem('selectedMerchantName', matchResult[0].type)
-          sessionStorage.setItem('selectedMerchantImg', matchResult[0].img ? matchResult[0].img : '/assets/images/GCash-Logo-700x618.png' )
+          sessionStorage.setItem(
+            'selectedMerchantImg',
+            matchResult[0].img
+              ? matchResult[0].img
+              : '/assets/images/GCash-Logo-700x618.png'
+          )
           sessionStorage.setItem('referenceNumber', result.data.referenceNumber)
           sessionStorage.setItem('voucherCode', matchResult[0].code)
-          
-          router.push('/basketball/rewards-message')
-        });
 
-      }
-      catch (e) {
-        console.log(e);
+          router.push('/basketball/rewards-message')
+        })
+      } catch (e) {
+        console.log(e)
       }
     }
   }
@@ -78,35 +85,37 @@ export default function RewardsSelect() {
     let emailAddress = sessionStorage.getItem('emailAddress')
     let score = sessionStorage.getItem('score')
     let selectedMerchant = sessionStorage.getItem('selectedMerchant')
-    if(
+    if (
       accepted === null ||
       fullName === null ||
       mobileNumber === null ||
       emailAddress === null
     )
       router.push('/basketball/user-form')
-    else if (score === null) router.push('/basketball/play')
-    else if (selectedMerchant !== null) router.push('/basketball/rewards-message')
+    else if (score === null) router.push('/assets/basketball/play.html')
+    else if (selectedMerchant !== null)
+      router.push('/basketball/rewards-message')
 
     try {
       axios({
         method: 'get',
         url: process.env.NEXT_PUBLIC_GET_REWARDS_API_URL,
-        headers: { 'x-api-key': process.env.NEXT_PUBLIC_API_KEY }
-      }).then( result => {
-        return forEach(result.data.result, (row: MerchantType) => {
-          let matchResult = gcs.filter((gc) => {
-            return gc.type == row.type
+        headers: { 'x-api-key': process.env.NEXT_PUBLIC_API_KEY },
+      })
+        .then((result) => {
+          return forEach(result.data.result, (row: MerchantType) => {
+            let matchResult = gcs.filter((gc) => {
+              return gc.type == row.type
+            })
+            row.img = matchResult[0].img
           })
-          row.img = matchResult[0].img
         })
-      }).then( result => {
-        console.log(result)
-        setMerchantsList(result)
-      });
-    }
-    catch (e) {
-      console.log(e);
+        .then((result) => {
+          console.log(result)
+          setMerchantsList(result)
+        })
+    } catch (e) {
+      console.log(e)
     }
   }, [])
 
@@ -224,72 +233,72 @@ const gcs = [
     img: 'https://1000logos.net/wp-content/uploads/2021/05/Jollibee-logo-500x281.png',
     type: 'Jollibee',
     id: '1',
-    code: ''
+    code: '',
   },
   {
     img: 'https://1000logos.net/wp-content/uploads/2017/03/McDonalds-logo-500x281.png',
     type: 'McDonalds',
     id: '2',
-    code: ''
+    code: '',
   },
   {
     img: 'https://1000logos.net/wp-content/uploads/2016/12/Starbucks-Logo-500x417.png',
     type: 'Starbucks',
     id: '3',
-    code: ''
+    code: '',
   },
   {
     img: 'https://1000logos.net/wp-content/uploads/2017/03/Kfc_logo-500x281.png',
     type: 'KFC',
     id: '4',
-    code: ''
+    code: '',
   },
   {
     img: 'https://1000logos.net/wp-content/uploads/2017/08/Dunkin-Donuts-Logo-500x209.png',
     type: "Dunkin'",
     id: '5',
-    code: ''
+    code: '',
   },
   {
     img: 'https://1000logos.net/wp-content/uploads/2022/08/Grab-Logo-500x281.png',
-    type: "Grab",
+    type: 'Grab',
     id: '6',
-    code: ''
+    code: '',
   },
   {
     img: 'https://1000logos.net/wp-content/uploads/2022/01/Lazada-Logo-500x281.jpg',
-    type: "Lazada",
+    type: 'Lazada',
     id: '7',
-    code: ''
+    code: '',
   },
   {
     img: 'https://1000logos.net/wp-content/uploads/2021/02/Shopee-logo-500x328.jpg',
-    type: "Shopee",
+    type: 'Shopee',
     id: '8',
-    code: ''
+    code: '',
   },
   {
     img: '/assets/images/Maya-Logo-1280x372.png',
-    type: "Maya",
+    type: 'Maya',
     id: '9',
-    code: ''
+    code: '',
   },
   {
     img: '/assets/images/GCash-Logo-700x618.png',
-    type: "GCash",
+    type: 'GCash',
     id: '10',
-    code: ''
+    code: '',
   },
   {
     img: 'https://1000logos.net/wp-content/uploads/2022/08/Grab-Logo-500x281.png',
-    type: "GrabFood",
+    type: 'GrabFood',
     id: '11',
-    code: ''
+    code: '',
   },
   {
     img: 'https://1000logos.net/wp-content/uploads/2017/06/Unilever-Logo-768x582.png',
-    type: "Unilever",
+    type: 'Unilever',
     id: '12',
-    code: ''
-  }
+    code: '',
+  },
 ]

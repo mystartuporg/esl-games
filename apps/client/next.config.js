@@ -9,12 +9,6 @@ const nextConfig = {
       permanent: false,
     },
   ],
-  rewrites: async () => [
-    {
-      source: '/assets/basketball/play.html',
-      destination: '/basketball/play',
-    },
-  ],
 }
 
 module.exports = nextConfig

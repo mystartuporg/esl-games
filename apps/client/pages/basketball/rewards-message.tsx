@@ -9,19 +9,18 @@ import {
   Typography,
 } from '@mui/material'
 
-import CssBaseline from "@mui/material/CssBaseline";
-import { ThemeProvider, createTheme } from "@mui/material/styles";
+import CssBaseline from '@mui/material/CssBaseline'
+import { ThemeProvider, createTheme } from '@mui/material/styles'
 
 const themeMain = createTheme({
   palette: {
     background: {
-      default: "cadetblue"
-    }
-  }
-});
+      default: 'cadetblue',
+    },
+  },
+})
 
 export default function RewardsMessage() {
-  
   const router = useRouter()
   const [selectedMerchantName, setSelectedMerchantName] = React.useState('')
   const [selectedMerchantImg, setSelectedMerchantImg] = React.useState('')
@@ -29,29 +28,37 @@ export default function RewardsMessage() {
   const [referenceNumber, setReferenceNumber] = React.useState('')
 
   useEffect(() => {
-    let accepted = sessionStorage.getItem("accepted")
-    let fullName = sessionStorage.getItem("fullName")
-    let mobileNumber = sessionStorage.getItem("mobileNumber")
-    let emailAddress = sessionStorage.getItem("emailAddress")
-    let score = sessionStorage.getItem("score")
+    let accepted = sessionStorage.getItem('accepted')
+    let fullName = sessionStorage.getItem('fullName')
+    let mobileNumber = sessionStorage.getItem('mobileNumber')
+    let emailAddress = sessionStorage.getItem('emailAddress')
+    let score = sessionStorage.getItem('score')
     let selectedMerchant = sessionStorage.getItem('selectedMerchant')
     let selectedMerchantName = sessionStorage.getItem('selectedMerchantName')
     let selectedMerchantImg = sessionStorage.getItem('selectedMerchantImg')
     let voucherCode = sessionStorage.getItem('voucherCode')
     let referenceNumber = sessionStorage.getItem('referenceNumber')
 
-    if ((accepted === null) || (fullName === null) || (mobileNumber === null) || (emailAddress === null))
+    if (
+      accepted === null ||
+      fullName === null ||
+      mobileNumber === null ||
+      emailAddress === null
+    )
       router.push('/basketball/user-form')
-    else if (score === null)
-      router.push('/basketball/play')
+    else if (score === null) router.push('/assets/basketball/play.html')
     else if (selectedMerchant === null)
       router.push('/basketball/rewards-select')
     else {
-      var selectedGC = gcs.filter(gc => {
+      var selectedGC = gcs.filter((gc) => {
         return gc.id === selectedMerchant
       })
-      setSelectedMerchantName(selectedMerchantName ? selectedMerchantName : selectedGC[0].type)
-      setSelectedMerchantImg(selectedMerchantImg ? selectedMerchantImg : selectedGC[0].img)
+      setSelectedMerchantName(
+        selectedMerchantName ? selectedMerchantName : selectedGC[0].type
+      )
+      setSelectedMerchantImg(
+        selectedMerchantImg ? selectedMerchantImg : selectedGC[0].img
+      )
       setVoucherCode(voucherCode ? voucherCode : '')
       setReferenceNumber(referenceNumber ? referenceNumber : '')
     }
@@ -165,7 +172,15 @@ export default function RewardsMessage() {
               align="justify"
               style={{ margin: '20px 0 10px', color: '#003865' }}
             >
-              We will send you the instructions on how to receive your reward via SMS or you can click <a style={{ color: "blue", textDecoration: "underline" }} href="#">here</a>.
+              We will send you the instructions on how to receive your reward
+              via SMS or you can click{' '}
+              <a
+                style={{ color: 'blue', textDecoration: 'underline' }}
+                href="#"
+              >
+                here
+              </a>
+              .
             </Typography>
           </Paper>
         </Grid>
@@ -177,20 +192,20 @@ export default function RewardsMessage() {
 const gcs = [
   {
     img: '/assets/images/GCash-Logo-700x618.png',
-    type: "GCash",
+    type: 'GCash',
     id: '10',
-    code: ''
+    code: '',
   },
   {
     img: 'https://1000logos.net/wp-content/uploads/2022/08/Grab-Logo-500x281.png',
-    type: "GrabFood",
+    type: 'GrabFood',
     id: '11',
-    code: ''
+    code: '',
   },
   {
     img: 'https://1000logos.net/wp-content/uploads/2017/06/Unilever-Logo-768x582.png',
-    type: "Unilever",
+    type: 'Unilever',
     id: '12',
-    code: ''
-  }
+    code: '',
+  },
 ]
