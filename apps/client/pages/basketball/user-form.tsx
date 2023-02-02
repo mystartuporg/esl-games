@@ -77,7 +77,7 @@ export default function UserForm() {
           sessionStorage.setItem("emailAddress", emailAddress)
           sessionStorage.setItem("userId", result.data.id)
         }).then( () => {
-          router.push('/basketball/play')
+          router.push('/assets/basketball/play.html')
         });
         
       }
