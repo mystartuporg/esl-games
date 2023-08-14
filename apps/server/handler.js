@@ -11,8 +11,9 @@ const mysql = require('serverless-mysql')({
 
 const SMS_FORMAT = {
   'GCash': (code, refNum) => `Your eGift code for P100 is ${code}. Please go to http://gft.ph/gcash and request for a top-up. Ref No. ${refNum}`,
-  'GrabFood': (code, refNum) => `Hi Waltermart! Unilever Philippines sent 1 eGift (P100) for GrabFood. Please open https://gft.ph/${code} for more details. Ref No. ${refNum}`,
-  'Unilever': (code, refNum) => `Hi Waltermart! Unilever Philippines sent you a Gift of 1 Creamsilk Hair Treatment product. Ref No. ${refNum}`
+  'GrabFood': (code, refNum) => `Hi Customer! Unilever Philippines sent 1 eGift (P100) for GrabFood. Please open https://gft.ph/${code} for more details. Ref No. ${refNum}`,
+  'Unilever': (code, refNum) => `Hi Customer! Unilever Philippines sent you a Gift of 1 Creamsilk Hair Treatment product. Ref No. ${refNum}`,
+  'Puregold': (code, refNum) => `Hi Customer! Unilever Philippines sent you a Gift of 50 TNAP points. Ref No. ${refNum}`
 }
 
 export const userInformation = async (event) => {
