@@ -301,4 +301,10 @@ const gcs = [
     id: '12',
     code: '',
   },
+  {
+    img: '/assets/images/Puregold-Logo-512x512.png',
+    type: 'Puregold',
+    id: '13',
+    code: '',
+  },
 ]
